@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<base href="/SPIP/">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -531,7 +532,7 @@ let curPage='home',charts={},isLoggedIn=false,searchType='semua';
    ============================================================ */
 function navigateTo(page,push=true){
   curPage=page;
-  if(push){const u=page==='home'?'/':'/'+page;window.history.pushState({page},'',u)}
+  if(push){const u=page==='home'?'/SPIP/':'/SPIP/'+page;window.history.pushState({page},'',u)}
   // Update nav active
   document.querySelectorAll('.nav-link,.drawer-link').forEach(l=>l.classList.toggle('active',l.dataset.page===page));
   destroyCharts();
@@ -557,7 +558,7 @@ window.addEventListener('popstate',e=>{navigateTo(e.state?.page||'home',false)})
 
 function handleHash(){
   const h=window.location.hash;
-  if(h&&h.startsWith('#/')){window.location.replace('/'+h.replace('#/',''));return true}
+  if(h&&h.startsWith('#/')){window.location.replace('/SPIP/'+h.replace('#/',''));return true}
   return false;
 }
 
@@ -1015,7 +1016,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const path=window.location.pathname.replace(/^\/+|\/+$/g,'');
     const valid=['home','explorer','warning','search','heatmap','flow','report','about'];
     const page=valid.includes(path)?path:'home';
-    window.history.replaceState({page},'','/'+(page==='home'?'':page));
+    window.history.replaceState({page},'','/SPIP/'+(page==='home'?'':page));
     navigateTo(page,false);
   }
   // Nav clicks
