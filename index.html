@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scam Radar — Kenali Pola Penipuan Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#F8FAFC;color:#334155;font-size:14px;line-height:22px;overflow-x:hidden}
+a{color:#2563EB;text-decoration:none;transition:color .2s}
+a:hover{color:#1D4ED8}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;outline:none}
+input,select,textarea{font-family:inherit;font-size:14px}
+ul{list-style:none}
+
+:root{
+  --navy:#0F172A;--blue:#2563EB;--blue-h:#1D4ED8;--blue-l:#EFF6FF;
+  --amber:#F59E0B;--amber-l:#FEF3C7;--amber-d:#D97706;
+  --red:#DC2626;--red-l:#FEE2E2;--green:#16A34A;--green-l:#DCFCE7;
+  --bg:#F8FAFC;--card:#FFFFFF;--body:#334155;--muted:#94A3B8;--caption:#CBD5E1;
+  --border:#E2E8F0;--border-l:#F1F5F9;
+  --radius:10px;
+  --shadow-s:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --shadow-m:0 4px 12px rgba(15,23,42,.07),0 2px 4px rgba(15,23,42,.04);
+  --shadow-l:0 10px 30px rgba(15,23,42,.1),0 4px 8px rgba(15,23,42,.05);
+}
+
+/* ===== NAVBAR ===== */
+#navbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:64px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;
+  padding:0 32px;transition:box-shadow .3s,background .3s;
+}
+#navbar.scrolled{box-shadow:var(--shadow-m);background:rgba(255,255,255,.97)}
+.nav-inner{max-width:1200px;margin:0 auto;width:100%;display:flex;align-items:center;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:10px;margin-right:24px;flex-shrink:0}
+.nav-brand-icon{width:34px;height:34px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.nav-brand-text{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.nav-links{display:flex;align-items:center;gap:4px;flex:1}
+.nav-link{
+  padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;
+  color:var(--body);transition:all .2s;white-space:nowrap;
+}
+.nav-link:hover{background:var(--border-l);color:var(--navy)}
+.nav-link.active{background:var(--blue-l);color:var(--blue);font-weight:600}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s}
+.btn-ghost{background:transparent;color:var(--body)}
+.btn-ghost:hover{background:var(--border-l)}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-h);transform:translateY(-1px);box-shadow:var(--shadow-m)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{background:#B91C1C}
+.btn-outline{background:transparent;color:var(--body);border:1px solid var(--border)}
+.btn-outline:hover{background:var(--border-l)}
+.btn-sm{padding:6px 14px;font-size:12px}
+.hamburger{display:none;background:none;font-size:20px;color:var(--body);padding:8px;border-radius:8px}
+.hamburger:hover{background:var(--border-l)}
+
+/* Mobile nav drawer */
+#mobile-drawer{display:none;position:fixed;inset:0;z-index:300}
+#mobile-drawer.open{display:block}
+.drawer-overlay{position:absolute;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(2px)}
+.drawer-panel{position:absolute;top:0;right:0;bottom:0;width:280px;background:#fff;box-shadow:var(--shadow-l);padding:24px;overflow-y:auto;animation:slideInRight .3s ease}
+@keyframes slideInRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.drawer-panel .drawer-brand{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.drawer-panel .drawer-brand-icon{width:34px;height:34px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.drawer-panel .drawer-brand-text{font-size:17px;font-weight:800;color:var(--navy)}
+.drawer-link{display:flex;align-items:center;gap:12px;padding:12px 0;font-size:14px;font-weight:500;color:var(--body);border-bottom:1px solid var(--border-l)}
+.drawer-link:hover,.drawer-link.active{color:var(--blue)}
+.drawer-link i{width:20px;text-align:center;color:var(--muted)}
+
+/* ===== MAIN CONTENT ===== */
+#content{min-height:100vh;padding-top:64px;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;padding:80px 0 72px;overflow:hidden;
+  background:linear-gradient(165deg,#0F172A 0%,#1E293B 50%,#1a2744 100%);
+  color:#fff;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 20% 80%,rgba(37,99,235,.15),transparent),
+             radial-gradient(ellipse 40% 40% at 80% 20%,rgba(220,38,38,.08),transparent);
+}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:1}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:rgba(245,158,11,.15);color:#F59E0B;font-size:11px;font-weight:600;margin-bottom:20px;border:1px solid rgba(245,158,11,.2)}
+.hero-tag .pulse{width:6px;height:6px;border-radius:50%;background:#F59E0B;animation:pulseDot 2s ease infinite}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero h1{font-size:42px;font-weight:900;line-height:1.15;letter-spacing:-.5px;margin-bottom:18px}
+.hero h1 span{color:#60A5FA}
+.hero p{font-size:16px;line-height:1.7;color:rgba(255,255,255,.7);margin-bottom:28px;max-width:480px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-actions .btn{padding:13px 28px;font-size:14px;border-radius:10px}
+.btn-hero-primary{background:var(--blue);color:#fff;font-weight:700}
+.btn-hero-primary:hover{background:var(--blue-h);box-shadow:0 0 0 4px rgba(37,99,235,.2),var(--shadow-m)}
+.btn-hero-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.12);font-weight:600}
+.btn-hero-ghost:hover{background:rgba(255,255,255,.14)}
+.hero-stats{display:flex;gap:32px;margin-top:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-stat-value{font-size:26px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+.hero-stat-label{font-size:12px;color:rgba(255,255,255,.45);margin-top:2px}
+.hero-visual{position:relative}
+.hero-card{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:20px;backdrop-filter:blur(8px);
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero-card-title{font-size:12px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.hero-flow{display:flex;flex-direction:column;gap:8px}
+.hero-flow-step{display:flex;align-items:center;gap:10px}
+.hero-flow-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hero-flow-dot.blue{background:#60A5FA;box-shadow:0 0 8px rgba(96,165,250,.4)}
+.hero-flow-dot.amber{background:#F59E0B;box-shadow:0 0 8px rgba(245,158,11,.4)}
+.hero-flow-dot.red{background:#EF4444;box-shadow:0 0 8px rgba(239,68,68,.4)}
+.hero-flow-text{font-size:13px;color:rgba(255,255,255,.8);font-weight:500}
+.hero-flow-connector{width:1px;height:12px;background:rgba(255,255,255,.1);margin-left:3.5px}
+.hero-card-badge{display:inline-flex;align-items:center;gap:4px;margin-top:14px;padding:4px 10px;border-radius:6px;background:rgba(239,68,68,.15);color:#FCA5A5;font-size:11px;font-weight:600}
+
+/* ===== SECTION COMMONS ===== */
+.section{padding:64px 0}
+.section-header{margin-bottom:32px}
+.section-header h2{font-size:28px;font-weight:800;color:var(--navy);line-height:1.3;margin-bottom:8px;letter-spacing:-.3px}
+.section-header p{font-size:15px;color:var(--muted);line-height:1.6;max-width:560px}
+.section-header.row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.section-alt{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+
+/* ===== CARD ===== */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-s);transition:box-shadow .2s,transform .2s;overflow:hidden}
+.card:hover{box-shadow:var(--shadow-m)}
+.card-body{padding:20px}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border-l);display:flex;align-items:center;justify-content:space-between}
+.card-head h3{font-size:15px;font-weight:700;color:var(--navy)}
+
+/* ===== BADGE ===== */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge.meningkat{background:var(--red-l);color:var(--red)}
+.badge.stabil{background:var(--amber-l);color:var(--amber-d)}
+.badge.menurun{background:var(--green-l);color:var(--green)}
+.badge.tinggi{background:var(--red-l);color:var(--red)}
+.badge.sedang{background:var(--amber-l);color:var(--amber-d)}
+.badge.rendah{background:var(--green-l);color:var(--green)}
+.badge.platform{background:var(--border-l);color:var(--body);font-weight:500}
+.badge.kritis{background:var(--red-l);color:var(--red)}
+
+/* ===== STAT GRID ===== */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;box-shadow:var(--shadow-s)}
+.stat-card::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:.06}
+.stat-card.blue::after{background:var(--blue)}
+.stat-card.amber::after{background:var(--amber)}
+.stat-card.red::after{background:var(--red)}
+.stat-card.green::after{background:var(--green)}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:12px}
+.stat-icon.blue{background:var(--blue-l);color:var(--blue)}
+.stat-icon.amber{background:var(--amber-l);color:var(--amber-d)}
+.stat-icon.red{background:var(--red-l);color:var(--red)}
+.stat-icon.green{background:var(--green-l);color:var(--green)}
+.stat-value{font-size:28px;font-weight:900;color:var(--navy);line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:var(--muted);font-weight:500}
+
+/* ===== PATTERN CARD ===== */
+.pattern-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.pattern-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:all .25s}
+.pattern-card:hover{box-shadow:var(--shadow-m);transform:translateY(-3px)}
+.pattern-card .pc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pattern-card .pc-name{font-size:16px;font-weight:700;color:var(--navy)}
+.pattern-card .pc-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pattern-card .pc-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--muted)}
+.pattern-card .pc-meta i{margin-right:3px}
+.pattern-card .pc-badges{display:flex;gap:6px;flex-wrap:wrap}
+.pattern-detail{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.pattern-detail.open{max-height:500px}
+.pattern-detail-inner{border-top:1px solid var(--border-l);padding-top:14px;margin-top:14px}
+
+/* ===== FLOW DIAGRAM ===== */
+.flow{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.flow-node{padding:8px 16px;border-radius:8px;background:var(--card);border:2px solid var(--border);font-size:12px;font-weight:600;color:var(--body);white-space:nowrap;transition:all .3s}
+.flow-node.danger{border-color:var(--red);color:var(--red);background:var(--red-l)}
+.flow-node.start{border-color:var(--blue);color:var(--blue);background:var(--blue-l)}
+.flow-node.amber{border-color:var(--amber);color:var(--amber-d);background:var(--amber-l)}
+.flow-arrow{width:28px;height:2px;background:var(--border);position:relative;flex-shrink:0;margin:0 2px}
+.flow-arrow::after{content:'';position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left-color:var(--border)}
+
+/* ===== WARNING CARD ===== */
+.warning-list{display:flex;flex-direction:column;gap:12px}
+.warning-card{display:flex;gap:14px;padding:16px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);border-left:4px solid var(--amber);transition:box-shadow .2s}
+.warning-card:hover{box-shadow:var(--shadow-s)}
+.warning-card.critical{border-left-color:var(--red)}
+.warning-card.info{border-left-color:var(--blue)}
+.warning-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.warning-icon.amber{background:var(--amber-l);color:var(--amber-d)}
+.warning-icon.red{background:var(--red-l);color:var(--red)}
+.warning-icon.blue{background:var(--blue-l);color:var(--blue)}
+.warning-body{flex:1}
+.warning-body p{font-size:13px;line-height:1.7}
+.warning-meta{font-size:11px;color:var(--muted);margin-top:6px;display:flex;gap:14px}
+
+/* ===== HEATMAP ===== */
+.heatmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:10px}
+.heatmap-cell{padding:16px;border-radius:10px;text-align:center;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.heatmap-cell:hover{transform:translateY(-3px);box-shadow:var(--shadow-m)}
+.heatmap-cell .hc-name{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.heatmap-cell .hc-count{font-size:20px;font-weight:900}
+.heat-1{background:#FEF9C3}.heat-1 .hc-count{color:#A16207}
+.heat-2{background:#FEF08A}.heat-2 .hc-count{color:#92400E}
+.heat-3{background:#FDE047}.heat-3 .hc-count{color:#78350F}
+.heat-4{background:#FBBF24}.heat-4 .hc-count{color:#fff}
+.heat-5{background:#F59E0B}.heat-5 .hc-count{color:#fff}
+.heat-6{background:#D97706}.heat-6 .hc-count{color:#fff}
+.heat-7{background:#DC2626}.heat-7 .hc-count{color:#fff}
+
+/* ===== SEARCH ===== */
+.search-hero{text-align:center;padding:48px 0 32px}
+.search-hero h2{font-size:28px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.search-hero p{font-size:15px;color:var(--muted);margin-bottom:28px}
+.search-box{position:relative;max-width:640px;margin:0 auto 20px}
+.search-box input{width:100%;padding:16px 20px 16px 52px;border:2px solid var(--border);border-radius:14px;font-size:15px;background:var(--card);box-shadow:var(--shadow-s);transition:all .2s}
+.search-box input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,.1),var(--shadow-m)}
+.search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--caption)}
+.search-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.search-tab{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;background:var(--card);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s}
+.search-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.search-result{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;display:flex;align-items:flex-start;gap:14px;transition:box-shadow .2s}
+.search-result:hover{box-shadow:var(--shadow-s)}
+.search-result-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+
+/* ===== EVOLUTION TIMELINE ===== */
+.evo-timeline{display:flex;gap:0;position:relative;padding:24px 0}
+.evo-line{position:absolute;top:40px;left:60px;right:60px;height:3px;background:var(--border);z-index:0}
+.evo-node{flex:1;text-align:center;position:relative;z-index:1}
+.evo-dot{width:26px;height:26px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700}
+.evo-year{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.evo-label{font-size:12px;color:var(--muted);line-height:1.5;max-width:140px;margin:0 auto}
+
+/* ===== FILTER TABS ===== */
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.filter-tab{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;background:var(--bg);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s}
+.filter-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+/* ===== LOGIN GATE ===== */
+.login-gate{text-align:center;padding:80px 20px;max-width:440px;margin:0 auto}
+.login-gate-icon{width:64px;height:64px;border-radius:16px;background:var(--blue-l);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 20px}
+.login-gate h2{font-size:24px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.login-gate p{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.7}
+.login-form{text-align:left}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.form-input{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--body);transition:border-color .2s,box-shadow .2s}
+.form-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.form-error{font-size:11px;color:var(--red);margin-top:4px;display:none}
+.form-group.error .form-input{border-color:var(--red)}
+.form-group.error .form-error{display:block}
+
+/* ===== REPORT FORM ===== */
+.report-form-wrap{max-width:680px;margin:0 auto}
+.form-textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--body);resize:vertical;min-height:120px;transition:border-color .2s,box-shadow .2s}
+.form-textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.form-select{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--body);transition:border-color .2s,box-shadow .2s}
+.form-select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.form-hint{font-size:11px;color:var(--muted);margin-top:4px}
+.upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.upload-zone:hover{border-color:var(--blue);background:var(--blue-l)}
+.upload-zone i{font-size:26px;color:var(--caption);margin-bottom:6px}
+.upload-zone p{font-size:13px;color:var(--muted)}
+.upload-zone .uh{font-size:11px;color:var(--caption);margin-top:4px}
+
+/* ===== ABOUT PAGE ===== */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.how-card{text-align:center;padding:28px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+.how-num{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.how-card h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.how-card p{font-size:12px;color:var(--muted);line-height:1.7}
+.persona-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.persona-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center}
+.persona-avatar{width:52px;height:52px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.persona-card h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.persona-card ul{text-align:left}
+.persona-card li{font-size:12px;color:var(--muted);padding:4px 0;display:flex;align-items:center;gap:6px}
+.persona-card li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0}
+.compare-table{width:100%;border-collapse:collapse}
+.compare-table th,.compare-table td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+.compare-table th{font-weight:600;color:var(--navy);background:var(--bg)}
+.compare-table td{color:var(--body)}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table .hl{color:var(--blue);font-weight:700}
+
+/* ===== FOOTER ===== */
+#footer{background:var(--navy);color:rgba(255,255,255,.6);padding:48px 0 28px}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 24px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-brand-icon{width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+.footer-brand-text{font-size:16px;font-weight:800;color:#fff}
+.footer-desc{font-size:13px;line-height:1.7;max-width:300px}
+.footer-col h4{font-size:12px;font-weight:700;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.5);padding:4px 0;transition:color .2s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px}
+
+/* ===== TOAST ===== */
+#toast-box{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{padding:14px 20px;border-radius:10px;background:var(--navy);color:#fff;font-size:13px;font-weight:500;box-shadow:var(--shadow-l);display:flex;align-items:center;gap:10px;max-width:380px;animation:slideInR .3s ease}
+.toast.success{border-left:4px solid var(--green)}
+.toast.error{border-left:4px solid var(--red)}
+.toast.warning{border-left:4px solid var(--amber)}
+@keyframes slideInR{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+
+/* ===== EMPTY STATE ===== */
+.empty{text-align:center;padding:48px 20px;color:var(--muted)}
+.empty i{font-size:44px;margin-bottom:14px;color:var(--caption)}
+.empty p{font-size:14px}
+
+/* ===== ANIM ===== */
+.anim{animation:fadeUp .5s ease both}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}.d7{animation-delay:.35s}.d8{animation-delay:.4s}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;gap:36px}
+  .hero-visual{max-width:400px}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .how-grid{grid-template-columns:1fr}
+  .evo-timeline{flex-direction:column;align-items:flex-start;gap:16px;padding-left:40px}
+  .evo-line{display:none}
+  .evo-node{flex:none;display:flex;align-items:center;gap:12px;text-align:left}
+  .evo-dot{margin:0}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .hero{padding:48px 0 40px}
+  .hero h1{font-size:30px}
+  .hero-stats{gap:20px;flex-wrap:wrap}
+  .hero-stat-value{font-size:22px}
+  .section{padding:40px 0}
+  .section-header h2{font-size:22px}
+  .pattern-grid{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .flow{flex-direction:column;align-items:flex-start}
+  .flow-arrow{width:2px;height:20px;margin:4px 0 4px 16px}
+  .flow-arrow::after{border:5px solid transparent;border-top-color:var(--border);right:auto;top:auto;bottom:-1px;left:-4px}
+  .compare-table{font-size:12px}
+  .compare-table th,.compare-table td{padding:10px 12px}
+}
+@media(max-width:480px){
+  .stat-grid{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column}
+  .hero-actions .btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--caption)}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<header id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand" onclick="event.preventDefault();navigateTo('home')">
+      <div class="nav-brand-icon"><i class="fas fa-shield-halved"></i></div>
+      <span class="nav-brand-text">Scam Radar</span>
+    </a>
+    <nav class="nav-links" id="nav-links" aria-label="Navigasi utama">
+      <a class="nav-link active" data-page="home" href="/">Beranda</a>
+      <a class="nav-link" data-page="explorer" href="/explorer">Pola Penipuan</a>
+      <a class="nav-link" data-page="warning" href="/warning">Peringatan Dini</a>
+      <a class="nav-link" data-page="search" href="/search">Pencarian</a>
+      <a class="nav-link" data-page="heatmap" href="/heatmap">Heatmap</a>
+      <a class="nav-link" data-page="flow" href="/flow">Attack Flow</a>
+    </nav>
+    <div class="nav-right">
+      <a class="nav-link" data-page="about" href="/about">Tentang</a>
+      <button class="btn btn-primary btn-sm" onclick="navigateTo('report')"><i class="fas fa-pen-to-square"></i> Lapor Scam</button>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== MOBILE DRAWER ===== -->
+<div id="mobile-drawer">
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="drawer-panel">
+    <div class="drawer-brand">
+      <div class="drawer-brand-icon"><i class="fas fa-shield-halved"></i></div>
+      <span class="drawer-brand-text">Scam Radar</span>
+    </div>
+    <a class="drawer-link active" data-page="home" href="/"><i class="fas fa-house"></i> Beranda</a>
+    <a class="drawer-link" data-page="explorer" href="/explorer"><i class="fas fa-diagram-project"></i> Pola Penipuan</a>
+    <a class="drawer-link" data-page="warning" href="/warning"><i class="fas fa-triangle-exclamation"></i> Peringatan Dini</a>
+    <a class="drawer-link" data-page="search" href="/search"><i class="fas fa-magnifying-glass"></i> Pencarian</a>
+    <a class="drawer-link" data-page="heatmap" href="/heatmap"><i class="fas fa-map-location-dot"></i> Heatmap</a>
+    <a class="drawer-link" data-page="flow" href="/flow"><i class="fas fa-route"></i> Attack Flow</a>
+    <a class="drawer-link" data-page="about" href="/about"><i class="fas fa-circle-info"></i> Tentang</a>
+    <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+      <button class="btn btn-primary" style="width:100%" onclick="closeDrawer();navigateTo('report')"><i class="fas fa-pen-to-square"></i> Lapor Scam</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<div id="content"></div>
+
+<!-- ===== FOOTER ===== -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-brand-icon"><i class="fas fa-shield-halved"></i></div>
+          <span class="footer-brand-text">Scam Radar</span>
+        </div>
+        <p class="footer-desc">Platform intelijen pola penipuan digital berbasis crowdsourcing. Mengubah laporan masyarakat menjadi peringatan dini yang menyelamatkan.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="/explorer" onclick="event.preventDefault();navigateTo('explorer')">Pola Penipuan</a>
+        <a href="/warning" onclick="event.preventDefault();navigateTo('warning')">Peringatan Dini</a>
+        <a href="/search" onclick="event.preventDefault();navigateTo('search')">Pencarian</a>
+        <a href="/heatmap" onclick="event.preventDefault();navigateTo('heatmap')">Heatmap</a>
+      </div>
+      <div class="footer-col">
+        <h4>Informasi</h4>
+        <a href="/flow" onclick="event.preventDefault();navigateTo('flow')">Attack Flow</a>
+        <a href="/about" onclick="event.preventDefault();navigateTo('about')">Tentang Kami</a>
+        <a href="/report" onclick="event.preventDefault();navigateTo('report')">Lapor Scam</a>
+      </div>
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <a href="#">Lab Pemrograman Lanjutan</a>
+        <a href="#">Jurusan Sistem Informasi</a>
+        <a href="#">UIN Alauddin Makassar</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>2026 Scam Radar — Prototype Mahasiswa</span>
+      <span>Muhammad Indar / 60900124010</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== TOAST ===== -->
+<div id="toast-box" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const D={
+  stats:{total:2847,patterns:12,warnings:8,regions:23},
+  weekTrend:{labels:['Sen','Sel','Rab','Kam','Jum','Sab','Min'],values:[32,45,38,67,89,72,95]},
+  modusDist:{labels:['Job Scam APK','Kurir Palsu','QRIS Palsu','Investasi Palsu','Beasiswa Palsu','Lainnya'],values:[145,120,74,61,38,29]},
+  topModus:[
+    {name:'Job Scam APK',count:145,change:43,status:'meningkat',risk:'tinggi',platform:'WhatsApp, Telegram'},
+    {name:'Kurir Palsu COD',count:120,change:28,status:'meningkat',risk:'tinggi',platform:'WhatsApp, SMS'},
+    {name:'QRIS Palsu',count:74,change:-5,status:'stabil',risk:'sedang',platform:'WhatsApp, Marketplace'},
+    {name:'Investasi Bodong',count:61,change:12,status:'meningkat',risk:'tinggi',platform:'Telegram, Instagram'},
+  ],
+  patterns:[
+    {id:1,name:'Fake Recruitment APK',desc:'Pelaku menghubungi korban via WhatsApp mengatasnamakan HR perusahaan ternama. Korban diminta masuk grup Telegram, lalu dikirim file APK yang diklaim sebagai "aplikasi tes online". Setelah diinstall, malware mencuri data mobile banking.',flow:['WhatsApp (HR Palsu)','Grup Telegram','Download APK','Install Malware','Pencurian Akun Bank'],reports:145,status:'meningkat',risk:'tinggi',platforms:['WhatsApp','Telegram'],lastReport:'2 jam lalu',weekChange:'+43%'},
+    {id:2,name:'Kurir Palsu COD',desc:'Korban menerima pesan dari "kurir" yang mengklaim ada paket COD. Diminta bayar ongkos kirim via transfer ke rekening pribadi. Setelah bayar, paket tidak pernah datang dan nomor diblokir.',flow:['SMS/WA (Notif Paket)','Konfirmasi Alamat','Minta Bayar Ongkir','Transfer ke Rekening','Diblokir'],reports:120,status:'meningkat',risk:'tinggi',platforms:['WhatsApp','SMS'],lastReport:'35 menit lalu',weekChange:'+28%'},
+    {id:3,name:'QRIS Palsu Pembayaran',desc:'Penjual di marketplace mengirim QRIS yang sudah dimodifikasi. Nomor rekening tujuan diganti dengan rekening penipu. Korban scan dan bayar, tapi dana masuk ke rekening yang salah.',flow:['Marketplace (Transaksi)','Kirim QRIS','Scan & Bayar','Dana ke Rekening Palsu','Penjual Menghilang'],reports:74,status:'stabil',risk:'sedang',platforms:['WhatsApp','Marketplace'],lastReport:'1 jam lalu',weekChange:'-5%'},
+    {id:4,name:'Investasi Bodong Telegram',desc:'Korban diajak masuk grup Telegram "trading signal". Awalnya diberi profit kecil agar percaya. Setelah deposit besar, akun dibekukan dan admin menghilang.',flow:['Instagram Ads','Invite Grup Telegram','Deposit Kecil (Profit Palsu)','Deposit Besar','Akun Dibekukan'],reports:61,status:'meningkat',risk:'tinggi',platforms:['Telegram','Instagram'],lastReport:'4 jam lalu',weekChange:'+12%'},
+    {id:5,name:'Beasiswa Palsu',desc:'Mahasiswa menerima email/WA tentang beasiswa dari lembaga palsu. Diminta bayar "biaya administrasi" atau "verifikasi data" via transfer. Tidak ada beasiswa yang diberikan.',flow:['Email/WA (Info Beasiswa)','Isi Formulir Online','Minta Biaya Admin','Transfer','Tidak Ada Beasiswa'],reports:38,status:'menurun',risk:'sedang',platforms:['WhatsApp','Email'],lastReport:'6 jam lalu',weekChange:'-15%'},
+    {id:6,name:'Undangan Nikah APK',desc:'Korban menerima link undangan nikah digital. Saat diklik, diminta download APK untuk "melihat undangan". APK tersebut menginfeksi perangkat dan mencuri data.',flow:['WhatsApp (Link Undangan)','Buka Link','Download APK','Install','Pencurian Data'],reports:52,status:'meningkat',risk:'tinggi',platforms:['WhatsApp'],lastReport:'3 jam lalu',weekChange:'+31%'}
+  ],
+  warnings:[
+    {id:1,severity:'critical',message:'Modus lowongan kerja APK meningkat 43% minggu ini. Pola serangan baru terdeteksi di 15 kota.',time:'15 menit lalu',platform:'WhatsApp, Telegram'},
+    {id:2,severity:'critical',message:'Kurir COD palsu menyebar di Jabodetabek dan Surabaya. 47 laporan masuk dalam 24 jam terakhir.',time:'1 jam lalu',platform:'WhatsApp, SMS'},
+    {id:3,severity:'warning',message:'Domain "lowongan-kerja-resmi.com" terdeteksi sebagai phishing. Sudah dilaporkan 23 kali.',time:'2 jam lalu',platform:'Web'},
+    {id:4,severity:'warning',message:'Grup Telegram "Signal Trading Pro" terindikasi penipuan investasi. 8 korban baru hari ini.',time:'3 jam lalu',platform:'Telegram'},
+    {id:5,severity:'info',message:'Pola baru terdeteksi: penipuan mengatasnamakan "Dinas Pendidikan" menawarkan bantuan pendidikan.',time:'5 jam lalu',platform:'WhatsApp'},
+    {id:6,severity:'warning',message:'Nomor 0812-3456-7890 terhubung dengan 3 modus berbeda. Tingkat risiko tinggi.',time:'6 jam lalu',platform:'WhatsApp'},
+    {id:7,severity:'info',message:'Rekening BCA 1234567890 muncul di 12 laporan penipuan berbeda dalam sebulan terakhir.',time:'8 jam lalu',platform:'Banking'},
+    {id:8,severity:'critical',message:'APK "Undangan Digital Pro" mengandung malware pencuri OTP. Sudah menyebar via WhatsApp.',time:'10 jam lalu',platform:'WhatsApp'},
+  ],
+  heatmap:[
+    {city:'Jakarta',count:487},{city:'Surabaya',count:312},{city:'Bandung',count:245},
+    {city:'Semarang',count:198},{city:'Makassar',count:176},{city:'Medan',count:164},
+    {city:'Yogyakarta',count:143},{city:'Denpasar',count:128},{city:'Palembang',count:97},
+    {city:'Malang',count:89},{city:'Manado',count:76},{city:'Pontianak',count:64},
+    {city:'Balikpapan',count:58},{city:'Padang',count:52},{city:'Lampung',count:45},
+    {city:'Solo',count:41},{city:'Cirebon',count:38},{city:'Banjarmasin',count:34},
+    {city:'Pekanbaru',count:31},{city:'Bogor',count:29}
+  ],
+  searchDB:[
+    {type:'nomor',value:'0812-3456-7890',connected:['Fake Recruitment APK','Kurir Palsu COD'],risk:'tinggi',reportCount:34},
+    {type:'nomor',value:'0857-9876-5432',connected:['Investasi Bodong Telegram'],risk:'tinggi',reportCount:18},
+    {type:'nomor',value:'0878-1234-5678',connected:['QRIS Palsu Pembayaran'],risk:'sedang',reportCount:9},
+    {type:'domain',value:'lowongan-kerja-resmi.com',connected:['Fake Recruitment APK'],risk:'tinggi',reportCount:23},
+    {type:'domain',value:'investasi-pro-trading.net',connected:['Investasi Bodong Telegram'],risk:'tinggi',reportCount:15},
+    {type:'domain',value:'undangan-digital-pro.xyz',connected:['Undangan Nikah APK'],risk:'tinggi',reportCount:12},
+    {type:'rekening',value:'BCA 1234567890',connected:['Kurir Palsu COD','QRIS Palsu Pembayaran'],risk:'tinggi',reportCount:28},
+    {type:'rekening',value:'BNI 0987654321',connected:['Investasi Bodong Telegram'],risk:'sedang',reportCount:11},
+    {type:'rekening',value:'Mandiri 1122334455',connected:['Beasiswa Palsu'],risk:'sedang',reportCount:7},
+    {type:'username',value:'@hr_recruitment_official',connected:['Fake Recruitment APK'],risk:'tinggi',reportCount:19},
+    {type:'username',value:'@trading_signal_pro',connected:['Investasi Bodong Telegram'],risk:'tinggi',reportCount:22},
+    {type:'username',value:'@kurir_ekspres_jakarta',connected:['Kurir Palsu COD'],risk:'sedang',reportCount:8},
+  ],
+  evolution:[
+    {year:'2023',label:'SMS Link Phishing',color:'#94A3B8'},
+    {year:'2024',label:'WhatsApp Link & OTP Scam',color:'#F59E0B'},
+    {year:'2025',label:'WhatsApp APK & Telegram Group',color:'#DC2626'},
+    {year:'2026',label:'AI Voice Scam & Deepfake',color:'#7C3AED'},
+  ]
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let curPage='home',charts={},isLoggedIn=false,searchType='semua';
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+function navigateTo(page,push=true){
+  curPage=page;
+  if(push){const u=page==='home'?'/':'/'+page;window.history.pushState({page},'',u)}
+  // Update nav active
+  document.querySelectorAll('.nav-link,.drawer-link').forEach(l=>l.classList.toggle('active',l.dataset.page===page));
+  destroyCharts();
+  renderPage(page);
+  closeDrawer();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderPage(p){
+  const el=document.getElementById('content');
+  el.style.animation='none';el.offsetHeight;el.style.animation='';
+  const m={home:pgHome,explorer:pgExplorer,warning:pgWarning,search:pgSearch,heatmap:pgHeatmap,flow:pgFlow,report:pgReport,about:pgAbout};
+  el.innerHTML=(m[p]||pgHome)();
+  if(p==='home')initHomeCharts();
+  if(p==='home')animCounters();
+  if(p==='explorer')initExplorerFilter();
+  if(p==='warning')initWarningFilter();
+  if(p==='search')initSearch();
+  if(p==='report')initReport();
+}
+
+window.addEventListener('popstate',e=>{navigateTo(e.state?.page||'home',false)});
+
+function handleHash(){
+  const h=window.location.hash;
+  if(h&&h.startsWith('#/')){window.location.replace('/'+h.replace('#/',''));return true}
+  return false;
+}
+
+/* ============================================================
+   CHART
+   ============================================================ */
+function destroyCharts(){Object.values(charts).forEach(c=>{if(c&&c.destroy)c.destroy()});charts={}}
+function initHomeCharts(){
+  const t=document.getElementById('hc-trend');
+  if(t){charts.trend=new Chart(t,{type:'line',data:{labels:D.weekTrend.labels,datasets:[{data:D.weekTrend.values,borderColor:'#2563EB',backgroundColor:'rgba(37,99,235,.08)',fill:true,tension:.4,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#2563EB',pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11,family:'Plus Jakarta Sans'},color:'#94A3B8'}},y:{grid:{color:'#F1F5F9'},ticks:{font:{size:11,family:'Plus Jakarta Sans'},color:'#94A3B8'},beginAtZero:true}},interaction:{intersect:false,mode:'index'}}})}
+  const b=document.getElementById('hc-modus');
+  if(b){charts.modus=new Chart(b,{type:'bar',data:{labels:D.modusDist.labels,datasets:[{data:D.modusDist.values,backgroundColor:['#DC2626','#F59E0B','#2563EB','#7C3AED','#16A34A','#94A3B8'],borderRadius:6,borderSkipped:false,barThickness:28}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:'#F1F5F9'},ticks:{font:{size:11,family:'Plus Jakarta Sans'},color:'#94A3B8'},beginAtZero:true},y:{grid:{display:false},ticks:{font:{size:11,family:'Plus Jakarta Sans',weight:'500'},color:'#334155'}}}}})}
+}
+
+/* ============================================================
+   ANIMATED COUNTER
+   ============================================================ */
+function animCounters(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target=parseInt(el.dataset.count),dur=1200,start=performance.now();
+    (function step(now){const p=Math.min((now-start)/dur,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(target*ease).toLocaleString('id-ID');if(p<1)requestAnimationFrame(step)})(start);
+  });
+}
+
+/* ============================================================
+   PAGE: HOME
+   ============================================================ */
+function pgHome(){
+  return `
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-tag anim"><span class="pulse"></span> Peringatan dini aktif — 8 ancaman minggu ini</div>
+          <h1 class="anim d1">Kenali Pola Penipuan <span>Sebelum Jadi Korban</span></h1>
+          <p class="anim d2">Platform crowdsourcing yang mengubah laporan masyarakat menjadi intelijen pola penipuan digital. Cek modus terbaru, cari nomor mencurigakan, dan lapor penipuan yang kamu temui.</p>
+          <div class="hero-actions anim d3">
+            <button class="btn btn-hero-primary" onclick="navigateTo('explorer')"><i class="fas fa-diagram-project"></i> Jelajahi Pola Penipuan</button>
+            <button class="btn btn-hero-ghost" onclick="navigateTo('search')"><i class="fas fa-magnifying-glass"></i> Cek Nomor / Rekening</button>
+          </div>
+          <div class="hero-stats anim d4">
+            <div><div class="hero-stat-value" data-count="${D.stats.total}">0</div><div class="hero-stat-label">Total Laporan</div></div>
+            <div><div class="hero-stat-value" data-count="${D.stats.patterns}">0</div><div class="hero-stat-label">Pola Teridentifikasi</div></div>
+            <div><div class="hero-stat-value" data-count="${D.stats.regions}">0</div><div class="hero-stat-label">Kota Terdampak</div></div>
+          </div>
+        </div>
+        <div class="hero-visual anim d3">
+          <div class="hero-card">
+            <div class="hero-card-title">Contoh Pola Terdeteksi</div>
+            <div class="hero-flow">
+              <div class="hero-flow-step"><div class="hero-flow-dot blue"></div><span class="hero-flow-text">WhatsApp — HR palsu menghubungi</span></div>
+              <div class="hero-flow-connector"></div>
+              <div class="hero-flow-step"><div class="hero-flow-dot blue"></div><span class="hero-flow-text">Telegram — Diminta masuk grup</span></div>
+              <div class="hero-flow-connector"></div>
+              <div class="hero-flow-step"><div class="hero-flow-dot amber"></div><span class="hero-flow-text">APK — File "tes online" dikirim</span></div>
+              <div class="hero-flow-connector"></div>
+              <div class="hero-flow-step"><div class="hero-flow-dot red"></div><span class="hero-flow-text">Akun bank korban hilang</span></div>
+            </div>
+            <div class="hero-card-badge"><i class="fas fa-arrow-trend-up"></i> 145 laporan — Meningkat 43%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section">
+    <div class="container">
+      <div class="stat-grid">
+        <div class="stat-card blue anim"><div class="stat-icon blue"><i class="fas fa-file-lines"></i></div><div class="stat-value" data-count="${D.stats.total}">0</div><div class="stat-label">Total Laporan Masuk</div></div>
+        <div class="stat-card amber anim d1"><div class="stat-icon amber"><i class="fas fa-fingerprint"></i></div><div class="stat-value" data-count="${D.stats.patterns}">0</div><div class="stat-label">Pola Aktif Teridentifikasi</div></div>
+        <div class="stat-card red anim d2"><div class="stat-icon red"><i class="fas fa-bell"></i></div><div class="stat-value" data-count="${D.stats.warnings}">0</div><div class="stat-label">Peringatan Minggu Ini</div></div>
+        <div class="stat-card green anim d3"><div class="stat-icon green"><i class="fas fa-map-pin"></i></div><div class="stat-value" data-count="${D.stats.regions}">0</div><div class="stat-label">Wilayah Terdampak</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Charts -->
+  <section class="section section-alt">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div class="card anim"><div class="card-head"><h3>Tren Laporan 7 Hari Terakhir</h3></div><div class="card-body"><div style="height:250px"><canvas id="hc-trend"></canvas></div></div></div>
+        <div class="card anim d1"><div class="card-head"><h3>Distribusi Modus Minggu Ini</h3></div><div class="card-body"><div style="height:250px"><canvas id="hc-modus"></canvas></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modus Teratas -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header row">
+        <div><h2>Modus Penipuan Teratas</h2><p>Modus dengan laporan terbanyak minggu ini — klik untuk detail lengkap</p></div>
+        <button class="btn btn-outline btn-sm" onclick="navigateTo('explorer')"><i class="fas fa-arrow-right"></i> Lihat Semua Pola</button>
+      </div>
+      <div class="pattern-grid">
+        ${D.topModus.map((m,i)=>`
+        <div class="pattern-card anim" style="animation-delay:${.05*(i+2)}s" onclick="navigateTo('explorer')">
+          <div class="pc-top"><span class="pc-name">${m.name}</span><span class="badge ${m.status}">${m.status}</span></div>
+          <div class="pc-desc">${D.patterns.find(p=>p.name===m.name)?.desc.substring(0,100)||''}...</div>
+          <div class="pc-meta">
+            <span><i class="fas fa-file-lines"></i> ${m.count} laporan</span>
+            <span><i class="fas fa-arrow-trend-up"></i> ${m.change>0?'+':''}${m.change}%</span>
+          </div>
+          <div class="pc-badges">
+            ${m.platform.split(',').map(pl=>`<span class="badge platform">${pl.trim()}</span>`).join('')}
+            <span class="badge ${m.risk}">Risiko ${m.risk}</span>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <!-- Peringatan Terbaru -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header row">
+        <div><h2>Peringatan Terbaru</h2><p>Ancaman yang sedang aktif berdasarkan laporan komunitas</p></div>
+        <button class="btn btn-outline btn-sm" onclick="navigateTo('warning')"><i class="fas fa-arrow-right"></i> Semua Peringatan</button>
+      </div>
+      <div class="warning-list">
+        ${D.warnings.slice(0,4).map((w,i)=>{
+          const ic=w.severity==='critical'?'red':w.severity==='warning'?'amber':'blue';
+          const cc=w.severity==='critical'?'critical':w.severity==='warning'?'':'info';
+          const ii=w.severity==='critical'?'fa-circle-exclamation':w.severity==='warning'?'fa-triangle-exclamation':'fa-circle-info';
+          return `<div class="warning-card ${cc} anim" style="animation-delay:${.05*(i+2)}s">
+            <div class="warning-icon ${ic}"><i class="fas ${ii}"></i></div>
+            <div class="warning-body"><p>${w.message}</p><div class="warning-meta"><span><i class="fas fa-clock"></i> ${w.time}</span><span><i class="fas fa-mobile-screen"></i> ${w.platform}</span></div></div>
+          </div>`}).join('')}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="background:linear-gradient(165deg,#0F172A,#1E293B);color:#fff;text-align:center">
+    <div class="container" style="max-width:600px">
+      <h2 class="anim" style="font-size:26px;font-weight:800;margin-bottom:10px">Pernah Menemui Penipuan?</h2>
+      <p class="anim d1" style="font-size:15px;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.7">Laporan kamu bisa menjadi peringatan dini yang menyelamatkan orang lain. Satu laporan bisa mengungkap pola baru.</p>
+      <button class="btn btn-hero-primary anim d2" style="padding:14px 32px;font-size:15px" onclick="navigateTo('report')"><i class="fas fa-pen-to-square"></i> Laporkan Sekarang</button>
+    </div>
+  </section>`;
+}
+
+/* ============================================================
+   PAGE: EXPLORER
+   ============================================================ */
+function pgExplorer(){
+  return `<section class="section"><div class="container">
+    <div class="section-header"><h2>Pola Penipuan Teridentifikasi</h2><p>Jelajahi pola serangan yang sudah teridentifikasi dari laporan komunitas. Klik untuk melihat attack flow.</p></div>
+    <div style="margin-bottom:20px"><div class="filter-tabs" id="ex-filter">
+      <button class="filter-tab active" data-f="semua">Semua</button>
+      <button class="filter-tab" data-f="meningkat">Meningkat</button>
+      <button class="filter-tab" data-f="stabil">Stabil</button>
+      <button class="filter-tab" data-f="tinggi">Risiko Tinggi</button>
+    </div></div>
+    <div class="pattern-grid" id="ex-list">
+      ${D.patterns.map((p,i)=>`
+      <div class="pattern-card anim" data-s="${p.status}" data-r="${p.risk}" style="animation-delay:${.04*i}s" onclick="this.querySelector('.pattern-detail').classList.toggle('open')">
+        <div class="pc-top"><span class="pc-name">${p.name}</span><span class="badge ${p.status}">${p.status}</span></div>
+        <div class="pc-desc">${p.desc.substring(0,130)}...</div>
+        <div class="pc-meta">
+          <span><i class="fas fa-file-lines"></i> ${p.reports} laporan</span>
+          <span><i class="fas fa-arrow-trend-up"></i> ${p.weekChange}</span>
+          <span><i class="fas fa-clock"></i> ${p.lastReport}</span>
+        </div>
+        <div class="pc-badges">${p.platforms.map(pl=>`<span class="badge platform">${pl}</span>`).join('')}<span class="badge ${p.risk}">Risiko ${p.risk}</span></div>
+        <div class="pattern-detail"><div class="pattern-detail-inner">
+          <p style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:8px">Attack Flow</p>
+          <div class="flow" style="margin-bottom:14px">${p.flow.map((s,si)=>{let c=si===0?'start':si===p.flow.length-1?'danger':'';return `<div class="flow-node ${c}" style="font-size:11px;padding:7px 12px">${s}</div>${si<p.flow.length-1?'<div class="flow-arrow"></div>':''}`}).join('')}</div>
+          <p style="font-size:13px;color:var(--body);line-height:1.7">${p.desc}</p>
+        </div></div>
+      </div>`).join('')}
+    </div>
+  </div></section>`;
+}
+function initExplorerFilter(){
+  const f=document.getElementById('ex-filter');if(!f)return;
+  f.querySelectorAll('.filter-tab').forEach(t=>t.addEventListener('click',()=>{
+    f.querySelectorAll('.filter-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
+    const v=t.dataset.f;
+    document.querySelectorAll('#ex-list .pattern-card').forEach(c=>{
+      const s=c.dataset.s,r=c.dataset.r;
+      c.style.display=(v==='semua'||v===s||(v==='tinggi'&&r==='tinggi'))?'':'none';
+    });
+  }));
+}
+
+/* ============================================================
+   PAGE: WARNING
+   ============================================================ */
+function pgWarning(){
+  return `<section class="section"><div class="container">
+    <div class="section-header"><h2>Peringatan Dini</h2><p>Notifikasi real-time tentang modus penipuan yang sedang meningkat. Mirip Waze, tapi untuk penipuan digital.</p></div>
+    <div style="margin-bottom:20px"><div class="filter-tabs" id="w-filter">
+      <button class="filter-tab active" data-f="semua">Semua</button>
+      <button class="filter-tab" data-f="critical">Kritis</button>
+      <button class="filter-tab" data-f="warning">Peringatan</button>
+      <button class="filter-tab" data-f="info">Info</button>
+    </div></div>
+    <div class="warning-list" id="w-list">
+      ${D.warnings.map((w,i)=>{
+        const ic=w.severity==='critical'?'red':w.severity==='warning'?'amber':'blue';
+        const cc=w.severity==='critical'?'critical':w.severity==='warning'?'':'info';
+        const ii=w.severity==='critical'?'fa-circle-exclamation':w.severity==='warning'?'fa-triangle-exclamation':'fa-circle-info';
+        return `<div class="warning-card ${cc} anim" data-sev="${w.severity}" style="animation-delay:${.04*i}s">
+          <div class="warning-icon ${ic}"><i class="fas ${ii}"></i></div>
+          <div class="warning-body"><p>${w.message}</p><div class="warning-meta"><span><i class="fas fa-clock"></i> ${w.time}</span><span><i class="fas fa-mobile-screen"></i> ${w.platform}</span></div></div>
+        </div>`}).join('')}
+    </div>
+  </div></section>`;
+}
+function initWarningFilter(){
+  const f=document.getElementById('w-filter');if(!f)return;
+  f.querySelectorAll('.filter-tab').forEach(t=>t.addEventListener('click',()=>{
+    f.querySelectorAll('.filter-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
+    const v=t.dataset.f;
+    document.querySelectorAll('#w-list .warning-card').forEach(c=>{c.style.display=(v==='semua'||c.dataset.sev===v)?'':'none'});
+  }));
+}
+
+/* ============================================================
+   PAGE: SEARCH
+   ============================================================ */
+function pgSearch(){
+  return `<section class="section"><div class="container">
+    <div class="search-hero">
+      <h2>Pencarian Intelijen</h2>
+      <p>Cari nomor HP, domain, rekening, atau username untuk melihat koneksi dengan modus penipuan</p>
+      <div class="search-box"><i class="fas fa-magnifying-glass"></i><input type="text" id="s-input" placeholder="Ketik nomor HP, domain, rekening, atau username..." autocomplete="off"></div>
+      <div class="search-tabs" id="s-tabs">
+        <button class="search-tab active" data-t="semua">Semua</button>
+        <button class="search-tab" data-t="nomor">Nomor HP</button>
+        <button class="search-tab" data-t="domain">Domain</button>
+        <button class="search-tab" data-t="rekening">Rekening</button>
+        <button class="search-tab" data-t="username">Username</button>
+      </div>
+    </div>
+    <div id="s-results" style="max-width:680px;margin:0 auto"><div class="empty"><i class="fas fa-shield-halved"></i><p>Masukkan kata kunci untuk mulai pencarian</p></div></div>
+  </div></section>`;
+}
+function initSearch(){
+  const inp=document.getElementById('s-input'),tabs=document.getElementById('s-tabs'),res=document.getElementById('s-results');
+  tabs.querySelectorAll('.search-tab').forEach(t=>t.addEventListener('click',()=>{
+    tabs.querySelectorAll('.search-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
+    searchType=t.dataset.t;if(inp.value.trim())doSearch(inp.value.trim());
+  }));
+  let db;inp.addEventListener('input',()=>{clearTimeout(db);db=setTimeout(()=>doSearch(inp.value.trim()),300)});
+  function doSearch(q){
+    if(!q){res.innerHTML='<div class="empty"><i class="fas fa-shield-halved"></i><p>Masukkan kata kunci untuk mulai pencarian</p></div>';return}
+    const ql=q.toLowerCase(),filtered=D.searchDB.filter(i=>(searchType==='semua'||i.type===searchType)&&i.value.toLowerCase().includes(ql));
+    if(!filtered.length){res.innerHTML=`<div class="empty"><i class="fas fa-check-circle" style="color:var(--green)"></i><p>Tidak ditemukan koneksi penipuan untuk "<strong>${q}</strong>"</p><p style="font-size:12px;margin-top:8px">Tetap waspada. Tidak ditemukan bukan berarti 100% aman.</p></div>`;return}
+    res.innerHTML=filtered.map(i=>{
+      const bg=i.risk==='tinggi'?'var(--red-l)':'var(--amber-l)',co=i.risk==='tinggi'?'var(--red)':'#D97706';
+      const ti={nomor:'fa-phone',domain:'fa-globe',rekening:'fa-building-columns',username:'fa-at'}[i.type]||'fa-circle';
+      return `<div class="search-result"><div class="search-result-icon" style="background:${bg};color:${co}"><i class="fas ${ti}"></i></div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px">${i.value}</div><div style="font-size:11px;color:var(--muted);margin-bottom:8px"><span class="badge ${i.risk}" style="font-size:10px">Risiko ${i.risk}</span><span style="margin-left:8px"><i class="fas fa-file-lines"></i> ${i.reportCount} laporan</span></div><div style="font-size:12px;color:var(--body)"><span style="font-weight:600">Terhubung dengan:</span>${i.connected.map(c=>`<span class="badge platform" style="margin-left:4px">${c}</span>`).join('')}</div></div></div>`}).join('');
+  }
+}
+
+/* ============================================================
+   PAGE: HEATMAP
+   ============================================================ */
+function pgHeatmap(){
+  const mx=Math.max(...D.heatmap.map(h=>h.count)),mn=Math.min(...D.heatmap.map(h=>h.count));
+  const hl=c=>{const r=(c-mn)/(mx-mn);return r>.85?7:r>.7?6:r>.55?5:r>.4?4:r>.25?3:r>.12?2:1};
+  return `<section class="section"><div class="container">
+    <div class="section-header"><h2>Scam Heatmap Indonesia</h2><p>Sebaran laporan penipuan per kota. Warna lebih gelap = volume laporan lebih tinggi.</p></div>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;flex-wrap:wrap">
+      <span style="font-size:12px;font-weight:600;color:var(--navy)">Legenda:</span>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:28px;height:16px;border-radius:4px;background:#FEF9C3"></div><span style="font-size:11px;color:var(--muted)">Rendah</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:28px;height:16px;border-radius:4px;background:#FBBF24"></div><span style="font-size:11px;color:var(--muted)">Sedang</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:28px;height:16px;border-radius:4px;background:#D97706"></div><span style="font-size:11px;color:var(--muted)">Tinggi</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:28px;height:16px;border-radius:4px;background:#DC2626"></div><span style="font-size:11px;color:var(--muted)">Kritis</span></div>
+    </div>
+    <div class="heatmap-grid">${D.heatmap.map((h,i)=>`<div class="heatmap-cell heat-${hl(h.count)} anim" style="animation-delay:${.025*i}s" onclick="showToast('${h.city}: ${h.count} laporan penipuan tercatat','warning')"><div class="hc-name">${h.city}</div><div class="hc-count">${h.count}</div><div style="font-size:10px;opacity:.7;margin-top:2px">laporan</div></div>`).join('')}</div>
+  </div></section>`;
+}
+
+/* ============================================================
+   PAGE: FLOW
+   ============================================================ */
+function pgFlow(){
+  return `<section class="section"><div class="container">
+    <div class="section-header"><h2>Scam Attack Flow</h2><p>Visualisasi jalur serangan setiap modus penipuan. Lebih mudah dipahami dibanding membaca artikel panjang.</p></div>
+    ${D.patterns.slice(0,4).map((p,i)=>`
+    <div class="card anim" style="margin-bottom:20px;animation-delay:${.06*i}s">
+      <div class="card-head"><h3>${p.name}</h3><span class="badge ${p.risk}">Risiko ${p.risk}</span></div>
+      <div class="card-body">
+        <div class="flow" style="justify-content:center;margin-bottom:16px">${p.flow.map((s,si)=>{let c=si===0?'start':si===p.flow.length-1?'danger':'';return `<div class="flow-node ${c}">${s}</div>${si<p.flow.length-1?'<div class="flow-arrow"></div>':''}`}).join('')}</div>
+        <p style="font-size:13px;color:var(--body);line-height:1.7">${p.desc}</p>
+        <div style="display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--muted)"><span><i class="fas fa-file-lines"></i> ${p.reports} laporan</span><span><i class="fas fa-arrow-trend-up"></i> ${p.weekChange} minggu ini</span></div>
+      </div>
+    </div>`).join('')}
+
+    <div class="section-header" style="margin-top:48px"><h2>Evolusi Ancaman</h2><p>Bagaimana modus penipuan digital berubah dari tahun ke tahun</p></div>
+    <div class="card"><div class="card-body" style="padding:32px 24px">
+      <div class="evo-timeline">
+        <div class="evo-line"></div>
+        ${D.evolution.map((e,i)=>`<div class="evo-node anim" style="animation-delay:${.1*i}s"><div class="evo-dot" style="background:${e.color}">${i+1}</div><div><div class="evo-year">${e.year}</div><div class="evo-label">${e.label}</div></div></div>`).join('')}
+      </div>
+    </div></div>
+  </div></section>`;
+}
+
+/* ============================================================
+   PAGE: REPORT (Login Gate → Form)
+   ============================================================ */
+function pgReport(){
+  if(!isLoggedIn) return `<section class="section"><div class="container"><div class="login-gate">
+    <div class="login-gate-icon"><i class="fas fa-lock"></i></div>
+    <h2>Masuk untuk Melapor</h2>
+    <p>Fitur lapor penipuan hanya tersedia untuk pengguna yang sudah masuk. Ini untuk mencegah laporan palsu dan spam. Daftar gratis.</p>
+    <div class="login-form card" style="max-width:380px;margin:0 auto">
+      <div class="card-body">
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="login-email" type="email" placeholder="nama@email.com"><div class="form-error">Email wajib diisi</div></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="login-pass" type="password" placeholder="Masukkan password"><div class="form-error">Password wajib diisi</div></div>
+        <button class="btn btn-primary" style="width:100%;padding:12px;margin-top:4px" onclick="doLogin()"><i class="fas fa-right-to-bracket"></i> Masuk</button>
+        <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">Belum punya akun? <a href="#" onclick="event.preventDefault();doLogin()" style="font-weight:600">Daftar sekarang</a></p>
+      </div>
+    </div>
+  </div></div></section>`;
+
+  return `<section class="section"><div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+      <div><h2 style="font-size:24px;font-weight:800;color:var(--navy);margin-bottom:4px">Lapor Penipuan</h2><p style="font-size:14px;color:var(--muted)">Bantu komunitas dengan melaporkan modus penipuan yang kamu temui.</p></div>
+      <button class="btn btn-outline btn-sm" onclick="isLoggedIn=false;navigateTo('report')"><i class="fas fa-right-from-bracket"></i> Keluar</button>
+    </div>
+    <div class="card"><div class="card-body">
+      <div class="report-form-wrap">
+        <form id="rpt-form" novalidate>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group"><label class="form-label">Platform Penipuan</label><select class="form-select" name="platform" required><option value="">Pilih platform...</option><option>WhatsApp</option><option>Telegram</option><option>Instagram</option><option>Facebook</option><option>SMS</option><option>Email</option><option>Marketplace</option><option>Lainnya</option></select><div class="form-error">Platform wajib dipilih</div></div>
+            <div class="form-group"><label class="form-label">Kategori Penipuan</label><select class="form-select" name="kategori" required><option value="">Pilih kategori...</option><option>Job Scam</option><option>Phishing</option><option>QRIS Palsu</option><option>Investasi Bodong</option><option>Kurir Palsu</option><option>Beasiswa Palsu</option><option>APK Malware</option><option>Social Engineering</option><option>Lainnya</option></select><div class="form-error">Kategori wajib dipilih</div></div>
+          </div>
+          <div class="form-group"><label class="form-label">Kronologi Kejadian</label><textarea class="form-textarea" name="kronologi" placeholder="Ceritakan urutan kejadian secara detail..." required></textarea><div class="form-hint">Tuliskan langkah demi langkah agar pola serangan bisa teridentifikasi</div><div class="form-error">Kronologi wajib diisi minimal 20 karakter</div></div>
+          <div class="form-group"><label class="form-label">Bukti (Screenshot)</label><div class="upload-zone" id="up-zone"><i class="fas fa-cloud-arrow-up"></i><p>Klik atau seret file ke sini</p><div class="uh">PNG, JPG, atau PDF. Maksimal 5 file, 10MB per file.</div></div><input type="file" id="up-input" multiple accept="image/*,.pdf" style="display:none"><div id="up-list" style="margin-top:8px"></div></div>
+          <div style="border-top:1px solid var(--border-l);padding-top:20px;margin-bottom:20px">
+            <p style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:14px">Data Pelaku (Opsional)</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div class="form-group" style="margin-bottom:12px"><label class="form-label">Nomor HP Pelaku</label><input class="form-input" name="nomor" placeholder="08xx-xxxx-xxxx"></div>
+              <div class="form-group" style="margin-bottom:12px"><label class="form-label">Nomor Rekening</label><input class="form-input" name="rekening" placeholder="Bank - No. Rekening"></div>
+              <div class="form-group" style="margin-bottom:12px"><label class="form-label">Domain/URL</label><input class="form-input" name="domain" placeholder="contoh-palsu.com"></div>
+              <div class="form-group" style="margin-bottom:12px"><label class="form-label">Lokasi (Kota)</label><input class="form-input" name="lokasi" placeholder="Jakarta, Surabaya, dll."></div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger" style="width:100%;padding:14px;font-size:14px"><i class="fas fa-paper-plane"></i> Kirim Laporan</button>
+        </form>
+      </div>
+    </div></div>
+  </div></section>`;
+}
+
+function doLogin(){
+  const em=document.getElementById('login-email'),ps=document.getElementById('login-pass');
+  let ok=true;
+  if(!em.value.trim()){em.closest('.form-group').classList.add('error');ok=false}else{em.closest('.form-group').classList.remove('error')}
+  if(!ps.value.trim()){ps.closest('.form-group').classList.add('error');ok=false}else{ps.closest('.form-group').classList.remove('error')}
+  if(ok){isLoggedIn=true;showToast('Berhasil masuk. Sekarang kamu bisa melapor.','success');navigateTo('report')}
+  else showToast('Mohon lengkapi email dan password.','error');
+}
+
+function initReport(){
+  // Login input listeners
+  ['login-email','login-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>el.closest('.form-group').classList.remove('error'))});
+  // Report form
+  const form=document.getElementById('rpt-form');if(!form)return;
+  const uz=document.getElementById('up-zone'),ui=document.getElementById('up-input'),ul=document.getElementById('up-list');
+  let files=[];
+  if(uz){uz.addEventListener('click',()=>ui.click());uz.addEventListener('dragover',e=>{e.preventDefault();uz.style.borderColor='var(--blue)';uz.style.background='var(--blue-l)'});uz.addEventListener('dragleave',()=>{uz.style.borderColor='';uz.style.background=''});uz.addEventListener('drop',e=>{e.preventDefault();uz.style.borderColor='';uz.style.background='';addFiles(e.dataTransfer.files)})}
+  if(ui)ui.addEventListener('change',()=>addFiles(ui.files));
+  function addFiles(f){Array.from(f).forEach(x=>{if(files.length<5)files.push(x.name)});renderFiles()}
+  function renderFiles(){if(!ul)return;ul.innerHTML=files.map(n=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg);border-radius:6px;margin-bottom:4px;font-size:12px"><i class="fas fa-paperclip" style="color:var(--muted)"></i><span style="flex:1">${n}</span><button type="button" onclick="this.closest('div').remove()" style="background:none;color:var(--red);font-size:12px;padding:2px"><i class="fas fa-xmark"></i></button></div>`).join('')}
+
+  form.addEventListener('submit',e=>{
+    e.preventDefault();let ok=true;
+    ['platform','kategori'].forEach(n=>{const el=form.querySelector(`[name="${n}"]`);if(!el.value){el.closest('.form-group').classList.add('error');ok=false}else el.closest('.form-group').classList.remove('error')});
+    const kr=form.querySelector('[name="kronologi"]');
+    if(kr.value.trim().length<20){kr.closest('.form-group').classList.add('error');ok=false}else kr.closest('.form-group').classList.remove('error');
+    if(ok){showToast('Laporan berhasil dikirim. Tim akan memverifikasi datamu.','success');form.reset();files=[];if(ul)ul.innerHTML=''}
+    else showToast('Mohon lengkapi field yang wajib diisi.','error');
+  });
+  form.querySelectorAll('.form-input,.form-select,.form-textarea').forEach(el=>el.addEventListener('input',()=>el.closest('.form-group')?.classList.remove('error')));
+}
+
+/* ============================================================
+   PAGE: ABOUT
+   ============================================================ */
+function pgAbout(){
+  return `<section class="section"><div class="container">
+    <div class="section-header"><h2>Tentang Scam Radar</h2><p>Platform intelijen pola penipuan digital berbasis crowdsourcing untuk mendukung peringatan dini ancaman siber pada masyarakat.</p></div>
+    <div class="card" style="margin-bottom:32px"><div class="card-body" style="font-size:14px;line-height:1.8;color:var(--body)">
+      <p style="margin-bottom:12px">Masyarakat saat ini menghadapi peningkatan penipuan digital melalui WhatsApp, Telegram, Instagram, Facebook, SMS, Email, dan Marketplace.</p>
+      <p style="margin-bottom:12px">Masalahnya bukan kurangnya edukasi. Sebagian besar masyarakat sudah mengetahui istilah phishing, scam, dan social engineering. Tapi korban tetap bertambah karena <strong>modus penipuan berkembang sangat cepat</strong>.</p>
+      <p>Tahun lalu modusnya "mama minta pulsa", tahun ini "undangan nikah APK", besok bisa jadi "AI Voice Scam". Tidak adanya sistem yang mengidentifikasi dan menyebarkan pola penipuan terbaru secara cepat — itu masalah sesungguhnya.</p>
+    </div></div>
+
+    <div class="section-header" style="margin-top:48px"><h2>Cara Kerja</h2></div>
+    <div class="how-grid">
+      <div class="how-card anim"><div class="how-num">1</div><h4>Masyarakat Melapor</h4><p>Setiap orang yang menemui penipuan bisa melaporkan kronologi, platform, dan bukti melalui formulir laporan.</p></div>
+      <div class="how-card anim d1"><div class="how-num">2</div><h4>Sistem Mengidentifikasi Pola</h4><p>Laporan yang masuk dianalisis untuk menemukan pola serangan yang sama dari berbagai korban berbeda.</p></div>
+      <div class="how-card anim d2"><div class="how-num">3</div><h4>Peringatan Dini Terbit</h4><p>Pola yang teridentifikasi diubah menjadi peringatan dini, visualisasi risiko, dan tren ancaman untuk publik.</p></div>
+    </div>
+
+    <div class="section-header" style="margin-top:48px"><h2>Perbedaan dengan yang Lain</h2></div>
+    <div class="card"><div class="card-body" style="padding:0;overflow-x:auto">
+      <table class="compare-table"><thead><tr><th>Platform</th><th>Pertanyaan yang Dijawab</th><th>Fokus</th></tr></thead><tbody>
+        <tr><td>CekRekening</td><td>Apakah rekening ini pernah dilaporkan?</td><td>Identitas pelaku</td></tr>
+        <tr><td>GetContact</td><td>Nomor ini disimpan sebagai apa?</td><td>Identitas pelaku</td></tr>
+        <tr><td class="hl">Scam Radar</td><td class="hl">Modus apa yang sedang meningkat dan bagaimana pola serangannya?</td><td class="hl">Pola serangan (TTP)</td></tr>
+      </tbody></table>
+    </div></div>
+
+    <div class="section-header" style="margin-top:48px"><h2>Target Pengguna</h2></div>
+    <div class="persona-grid">
+      <div class="persona-card anim"><div class="persona-avatar" style="background:var(--blue-l);color:var(--blue)"><i class="fas fa-user-graduate"></i></div><h4>Mahasiswa</h4><ul><li>Beasiswa palsu</li><li>Lowongan kerja palsu</li><li>APK tugas palsu</li></ul></div>
+      <div class="persona-card anim d1"><div class="persona-avatar" style="background:var(--amber-l);color:var(--amber-d)"><i class="fas fa-briefcase"></i></div><h4>Pencari Kerja</h4><ul><li>HR palsu</li><li>Interview palsu</li><li>Tes online APK</li></ul></div>
+      <div class="persona-card anim d2"><div class="persona-avatar" style="background:var(--green-l);color:var(--green)"><i class="fas fa-store"></i></div><h4>UMKM</h4><ul><li>Bukti transfer palsu</li><li>Order fiktif</li><li>QRIS modifikasi</li></ul></div>
+      <div class="persona-card anim d3"><div class="persona-avatar" style="background:var(--red-l);color:var(--red)"><i class="fas fa-users"></i></div><h4>Masyarakat Umum</h4><ul><li>Kurir palsu</li><li>QRIS palsu</li><li>Investasi palsu</li></ul></div>
+    </div>
+
+    <div class="section-header" style="margin-top:48px"><h2>Tim Pengembang</h2></div>
+    <div class="card"><div class="card-body">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div><div style="font-size:15px;font-weight:700;color:var(--navy)">Muhammad Indar</div><div style="font-size:12px;color:var(--muted)">NIM 60900124010 — Kelas A</div></div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-l);font-size:12px;color:var(--muted);line-height:1.7">Laboratorium Pemrograman Lanjutan — Jurusan Sistem Informasi — Fakultas Sains dan Teknologi — Universitas Islam Negeri Alauddin Makassar — 2026</div>
+    </div></div>
+  </div></section>`;
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg,type='success'){
+  const c=document.getElementById('toast-box'),t=document.createElement('div');
+  t.className='toast '+type;
+  const ic={success:'fa-circle-check',error:'fa-circle-xmark',warning:'fa-triangle-exclamation'};
+  t.innerHTML=`<i class="fas ${ic[type]||ic.success}"></i><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(40px)';t.style.transition='all .3s';setTimeout(()=>t.remove(),300)},4000);
+}
+
+/* ============================================================
+   NAVBAR SCROLL & DRAWER
+   ============================================================ */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>10);
+});
+function openDrawer(){document.getElementById('mobile-drawer').classList.add('open');document.body.style.overflow='hidden'}
+function closeDrawer(){document.getElementById('mobile-drawer').classList.remove('open');document.body.style.overflow=''}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded',()=>{
+  if(!handleHash()){
+    const path=window.location.pathname.replace(/^\/+|\/+$/g,'');
+    const valid=['home','explorer','warning','search','heatmap','flow','report','about'];
+    const page=valid.includes(path)?path:'home';
+    window.history.replaceState({page},'','/'+(page==='home'?'':page));
+    navigateTo(page,false);
+  }
+  // Nav clicks
+  document.querySelectorAll('.nav-link,.drawer-link').forEach(l=>l.addEventListener('click',e=>{e.preventDefault();navigateTo(l.dataset.page)}));
+  document.getElementById('hamburger-btn').addEventListener('click',openDrawer);
+  document.getElementById('drawer-overlay').addEventListener('click',closeDrawer);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+});
+</script>
+</body>
+</html>
