@@ -406,9 +406,9 @@ ul{list-style:none}
       <a class="nav-link" data-page="heatmap" href="/heatmap">Heatmap</a>
       <a class="nav-link" data-page="flow" href="/flow">Attack Flow</a>
       <a class="nav-link" data-page="about" href="/about">Tentang</a>
-      <a class="nav-link" data-page="admin" href="/admin" id="nav-admin" style="display:none"><i class="fas fa-user-shield"></i> Admin</a>
     </nav>
     <div class="nav-right">
+      <a class="nav-link" data-page="login" href="/login" id="nav-login">Masuk</a>
       <button class="btn btn-primary btn-sm" onclick="navigateTo('report')"><i class="fas fa-pen-to-square"></i> Lapor</button>
       <button class="hamburger" id="hamburger-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
     </div>
@@ -429,6 +429,7 @@ ul{list-style:none}
     <a class="drawer-link" data-page="heatmap" href="/heatmap"><i class="fas fa-map-location-dot"></i> Heatmap</a>
     <a class="drawer-link" data-page="flow" href="/flow"><i class="fas fa-route"></i> Attack Flow</a>
     <a class="drawer-link" data-page="about" href="/about"><i class="fas fa-circle-info"></i> Tentang</a>
+    <a class="drawer-link" data-page="login" href="/login" id="drawer-login"><i class="fas fa-right-to-bracket"></i> Masuk</a>
     <a class="drawer-link" data-page="admin" href="/admin" id="drawer-admin" style="display:none"><i class="fas fa-user-shield"></i> Moderasi (Admin)</a>
     <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
       <button class="btn btn-primary" style="width:100%" onclick="closeDrawer();navigateTo('report')"><i class="fas fa-pen-to-square"></i> Lapor Scam</button>
@@ -574,7 +575,7 @@ function navigateTo(page,push=true){
 function renderPage(p){
   const el=document.getElementById('content');
   el.style.animation='none';el.offsetHeight;el.style.animation='';
-  const m={home:pgHome,explorer:pgExplorer,warning:pgWarning,search:pgSearch,heatmap:pgHeatmap,flow:pgFlow,report:pgReport,about:pgAbout,admin:pgAdmin};
+  const m={home:pgHome,explorer:pgExplorer,warning:pgWarning,search:pgSearch,heatmap:pgHeatmap,flow:pgFlow,report:pgReport,about:pgAbout,admin:pgAdmin,login:pgLogin};
   el.innerHTML=(m[p]||pgHome)();
   if(p==='home')initHomeCharts();
   if(p==='home')animCounters();
@@ -583,6 +584,7 @@ function renderPage(p){
   if(p==='search')initSearch();
   if(p==='report')initReport();
   if(p==='admin')initAdmin();
+  if(p==='login')authGateInit();
 }
 
 window.addEventListener('popstate',e=>{navigateTo(e.state?.page||'home',false)});
@@ -899,6 +901,13 @@ function pgFlow(){
 }
 
 /* ============================================================
+   PAGE: LOGIN/REGISTER
+   ============================================================ */
+function pgLogin(){
+  return authGateHTML('login');
+}
+
+/* ============================================================
    PAGE: REPORT (Login Gate → Form)
    ============================================================ */
 function pgReport(){
@@ -935,12 +944,37 @@ function pgReport(){
 const ADMIN={email:'admin@spip.id',password:'admin123'};
 function authGateHTML(dest){
   const isAdminGate=dest==='admin';
+  const isLoginPage=dest==='login';
   const isReg=authMode==='register';
   const icon=isAdminGate?'fa-user-shield':(isReg?'fa-user-plus':'fa-lock');
-  const title=isAdminGate?(isReg?'Daftar Akun Admin':'Masuk sebagai Admin'):(isReg?'Daftar Akun':'Masuk untuk Melapor');
+  const title=isAdminGate?(isReg?'Daftar Akun Admin':'Masuk sebagai Admin'):(isReg?'Daftar Akun':'Masuk');
   const desc=isAdminGate
-    ?(isReg?'Buat akun admin untuk memverifikasi laporan.':(curPage==='admin'?'Hanya admin yang dapat memoderasi laporan.':'Akun admin diperlukan untuk masuk.'))
-    :(isReg?'Buat akun gratis untuk mulai melaporkan penipuan.':'Fitur lapor hanya untuk pengguna terdaftar. Daftar gratis.');
+    ?(isReg?'Buat akun admin untuk memverifikasi laporan.':'Akun admin diperlukan untuk memoderasi laporan.')
+    :(isReg?'Buat akun gratis untuk mulai melaporkan penipuan.':'Masuk ke akun SPIP.');
+  const nameField=isReg?`<div class="form-group"><label class="form-label">Nama Lengkap</label><input class="form-input" id="login-name" type="text" placeholder="Nama kamu"><div class="form-error">Nama wajib diisi</div></div>`:'';
+  const confirmField=isReg?`<div class="form-group"><label class="form-label">Konfirmasi Password</label><input class="form-input" id="login-pass2" type="password" placeholder="Ulangi password"><div class="form-error">Konfirmasi password tidak cocok</div></div>`:'';
+  const btnLabel=isReg?'Daftar':'Masuk';
+  const btnIcon=isReg?'fa-user-plus':'fa-right-to-bracket';
+  const switchText=isReg?'Sudah punya akun?':'Belum punya akun?';
+  const switchLink=isReg?'Masuk di sini':'Daftar sekarang';
+  const demoHint=isAdminGate&&!isReg?`<p style="text-align:center;margin-top:14px;font-size:11px;color:var(--caption)">Akun demo admin: admin@spip.id / admin123</p>`:'';
+  return `<section class="section"><div class="container"><div class="login-gate">
+    <div class="login-gate-icon"><i class="fas ${icon}"></i></div>
+    <h2>${title}</h2>
+    <p>${desc}</p>
+    <div class="login-form card" style="max-width:380px;margin:0 auto">
+      <div class="card-body">
+        ${nameField}
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="login-email" type="email" placeholder="${isAdminGate?'admin@spip.id':'nama@email.com'}"><div class="form-error">Email wajib diisi</div></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="login-pass" type="password" placeholder="Masukkan password"><div class="form-error">Password wajib diisi</div></div>
+        ${confirmField}
+        <button class="btn btn-primary" style="width:100%;padding:12px;margin-top:4px" onclick="${isReg?'doRegister()':'doLogin()'}"><i class="fas ${btnIcon}"></i> ${btnLabel}</button>
+        <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">${switchText} <a href="#" onclick="event.preventDefault();setAuthMode('${isReg?'login':'register'}')" style="font-weight:600">${switchLink}</a></p>
+        ${demoHint}
+      </div>
+    </div>
+  </div></div></section>`;
+}
   const nameField=isReg?`<div class="form-group"><label class="form-label">Nama Lengkap</label><input class="form-input" id="login-name" type="text" placeholder="Nama kamu"><div class="form-error">Nama wajib diisi</div></div>`:'';
   const confirmField=isReg?`<div class="form-group"><label class="form-label">Konfirmasi Password</label><input class="form-input" id="login-pass2" type="password" placeholder="Ulangi password"><div class="form-error">Konfirmasi password tidak cocok</div></div>`:'';
   const btnLabel=isReg?'Daftar':'Masuk';
@@ -984,9 +1018,9 @@ function doLogin(){
   const v=em.value.trim().toLowerCase(),p=ps.value;
   const user=users.find(u=>u.email.toLowerCase()===v&&u.password===p);
   if(!user){showToast('Email atau password salah.','error');return}
-  isAdmin=user.role==='admin';isLoggedIn=true;updateAdminNav();
+  isAdmin=user.role==='admin';isLoggedIn=true;updateAuthNav();
   showToast('Berhasil masuk. Selamat datang'+(user.name?', '+user.name:'')+'.','success');
-  navigateTo(isAdmin?'admin':'report');
+  navigateTo(isAdmin?'admin':'home');
 }
 function doRegister(){
   const nm=document.getElementById('login-name'),em=document.getElementById('login-email'),ps=document.getElementById('login-pass'),ps2=document.getElementById('login-pass2');
@@ -1006,13 +1040,23 @@ function doRegister(){
   el.innerHTML=authGateHTML(curPage==='admin'?'admin':'report');
   authGateInit();
 }
-function updateAdminNav(){
-  const s=isAdmin?'':'none';
-  const a=document.getElementById('nav-admin'),d=document.getElementById('drawer-admin');
-  if(a)a.style.display=s;if(d)d.style.display=s;
+function updateAuthNav(){
+  const loginLink=document.getElementById('nav-login'),drawerLogin=document.getElementById('drawer-login');
+  const adminLink=document.getElementById('nav-admin'),drawerAdmin=document.getElementById('drawer-admin');
+  if(isLoggedIn){
+    if(loginLink)loginLink.innerHTML='<i class="fas fa-right-from-bracket"></i> Keluar';
+    if(loginLink)loginLink.onclick=()=>{event.preventDefault();doLogout();};
+    if(drawerLogin){drawerLogin.innerHTML='<i class="fas fa-right-from-bracket"></i> Keluar';drawerLogin.onclick=()=>{event.preventDefault();doLogout();};}
+  } else {
+    if(loginLink)loginLink.innerHTML='Masuk';
+    if(loginLink)loginLink.onclick=null;
+    if(drawerLogin){drawerLogin.innerHTML='<i class="fas fa-right-to-bracket"></i> Masuk';drawerLogin.onclick=null;}
+  }
+  if(adminLink)adminLink.style.display=isAdmin?'':'none';
+  if(drawerAdmin)drawerAdmin.style.display=isAdmin?'':'none';
 }
 function doLogout(){
-  isLoggedIn=false;isAdmin=false;authMode='login';updateAdminNav();
+  isLoggedIn=false;isAdmin=false;authMode='login';updateAuthNav();
   showToast('Kamu telah keluar.','success');
   navigateTo('home');
 }
@@ -1212,11 +1256,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   const pParam=params.get('p');
   if(pParam!==null){
     const seg=pParam.replace(/~and~/g,'&');
-    const valid=['home','explorer','warning','search','heatmap','flow','report','about','admin'];
+    const valid=['home','explorer','warning','search','heatmap','flow','report','about','admin','login'];
     initialPage=valid.includes(seg)?seg:'home';
   } else if(!handleHash()){
     const path=window.location.pathname.replace(/^\/+|\/+$/g,'');
-    const valid=['home','explorer','warning','search','heatmap','flow','report','about','admin'];
+    const valid=['home','explorer','warning','search','heatmap','flow','report','about','admin','login'];
     initialPage=valid.includes(path)?path:'home';
   }
   window.history.replaceState({page:initialPage},'','/SPIP/'+(initialPage==='home'?'':initialPage));
