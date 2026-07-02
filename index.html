@@ -408,8 +408,7 @@ ul{list-style:none}
       <a class="nav-link" data-page="about" href="/about">Tentang</a>
     </nav>
     <div class="nav-right">
-      <a class="nav-link" data-page="login" href="/login" id="nav-login">Masuk</a>
-      <button class="btn btn-primary btn-sm" onclick="navigateTo('report')"><i class="fas fa-pen-to-square"></i> Lapor</button>
+      <button class="btn btn-primary btn-sm" onclick="navigateTo('login')"><i class="fas fa-pen-to-square"></i> Lapor</button>
       <button class="hamburger" id="hamburger-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
     </div>
   </div>
@@ -429,10 +428,9 @@ ul{list-style:none}
     <a class="drawer-link" data-page="heatmap" href="/heatmap"><i class="fas fa-map-location-dot"></i> Heatmap</a>
     <a class="drawer-link" data-page="flow" href="/flow"><i class="fas fa-route"></i> Attack Flow</a>
     <a class="drawer-link" data-page="about" href="/about"><i class="fas fa-circle-info"></i> Tentang</a>
-    <a class="drawer-link" data-page="login" href="/login" id="drawer-login"><i class="fas fa-right-to-bracket"></i> Masuk</a>
     <a class="drawer-link" data-page="admin" href="/admin" id="drawer-admin" style="display:none"><i class="fas fa-user-shield"></i> Moderasi (Admin)</a>
     <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
-      <button class="btn btn-primary" style="width:100%" onclick="closeDrawer();navigateTo('report')"><i class="fas fa-pen-to-square"></i> Lapor Scam</button>
+      <button class="btn btn-primary" style="width:100%" onclick="closeDrawer();navigateTo('login')"><i class="fas fa-pen-to-square"></i> Lapor Scam</button>
     </div>
   </div>
 </div>
@@ -1020,7 +1018,7 @@ function doLogin(){
   if(!user){showToast('Email atau password salah.','error');return}
   isAdmin=user.role==='admin';isLoggedIn=true;updateAuthNav();
   showToast('Berhasil masuk. Selamat datang'+(user.name?', '+user.name:'')+'.','success');
-  navigateTo(isAdmin?'admin':'home');
+  navigateTo(isAdmin?'admin':'report');
 }
 function doRegister(){
   const nm=document.getElementById('login-name'),em=document.getElementById('login-email'),ps=document.getElementById('login-pass'),ps2=document.getElementById('login-pass2');
