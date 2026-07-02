@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scam Radar — Kenali Pola Penipuan Digital</title>
+<title>SPIP — Kenali Pola Penipuan Digital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -42,8 +42,7 @@ ul{list-style:none}
 #navbar.scrolled{box-shadow:var(--shadow-m);background:rgba(255,255,255,.97)}
 .nav-inner{max-width:1200px;margin:0 auto;width:100%;display:flex;align-items:center;gap:8px}
 .nav-brand{display:flex;align-items:center;gap:10px;margin-right:24px;flex-shrink:0}
-.nav-brand-icon{width:34px;height:34px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
-.nav-brand-text{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.nav-brand-text{font-size:18px;font-weight:800;color:var(--navy);letter-spacing:.5px}
 .nav-links{display:flex;align-items:center;gap:4px;flex:1}
 .nav-link{
   padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;
@@ -72,8 +71,7 @@ ul{list-style:none}
 .drawer-panel{position:absolute;top:0;right:0;bottom:0;width:280px;background:#fff;box-shadow:var(--shadow-l);padding:24px;overflow-y:auto;animation:slideInRight .3s ease}
 @keyframes slideInRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
 .drawer-panel .drawer-brand{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
-.drawer-panel .drawer-brand-icon{width:34px;height:34px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
-.drawer-panel .drawer-brand-text{font-size:17px;font-weight:800;color:var(--navy)}
+.drawer-panel .drawer-brand-text{font-size:18px;font-weight:800;color:var(--navy);letter-spacing:.5px}
 .drawer-link{display:flex;align-items:center;gap:12px;padding:12px 0;font-size:14px;font-weight:500;color:var(--body);border-bottom:1px solid var(--border-l)}
 .drawer-link:hover,.drawer-link.active{color:var(--blue)}
 .drawer-link i{width:20px;text-align:center;color:var(--muted)}
@@ -86,13 +84,7 @@ ul{list-style:none}
 /* ===== HERO ===== */
 .hero{
   position:relative;padding:80px 0 72px;overflow:hidden;
-  background:linear-gradient(165deg,#0F172A 0%,#1E293B 50%,#1a2744 100%);
-  color:#fff;
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 60% 50% at 20% 80%,rgba(37,99,235,.15),transparent),
-             radial-gradient(ellipse 40% 40% at 80% 20%,rgba(220,38,38,.08),transparent);
+  background:#0F172A;color:#fff;
 }
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:1}
 .hero-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:rgba(245,158,11,.15);color:#F59E0B;font-size:11px;font-weight:600;margin-bottom:20px;border:1px solid rgba(245,158,11,.2)}
@@ -104,7 +96,7 @@ ul{list-style:none}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
 .hero-actions .btn{padding:13px 28px;font-size:14px;border-radius:10px}
 .btn-hero-primary{background:var(--blue);color:#fff;font-weight:700}
-.btn-hero-primary:hover{background:var(--blue-h);box-shadow:0 0 0 4px rgba(37,99,235,.2),var(--shadow-m)}
+.btn-hero-primary:hover{background:var(--blue-h)}
 .btn-hero-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.12);font-weight:600}
 .btn-hero-ghost:hover{background:rgba(255,255,255,.14)}
 .hero-stats{display:flex;gap:32px;margin-top:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,.08)}
@@ -112,9 +104,8 @@ ul{list-style:none}
 .hero-stat-label{font-size:12px;color:rgba(255,255,255,.45);margin-top:2px}
 .hero-visual{position:relative}
 .hero-card{
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
-  border-radius:14px;padding:20px;backdrop-filter:blur(8px);
-  animation:float 6s ease-in-out infinite;
+  background:#1E293B;border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:20px;
 }
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .hero-card-title{font-size:12px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
@@ -156,12 +147,7 @@ ul{list-style:none}
 
 /* ===== STAT GRID ===== */
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;box-shadow:var(--shadow-s)}
-.stat-card::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:.06}
-.stat-card.blue::after{background:var(--blue)}
-.stat-card.amber::after{background:var(--amber)}
-.stat-card.red::after{background:var(--red)}
-.stat-card.green::after{background:var(--green)}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-s)}
 .stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:12px}
 .stat-icon.blue{background:var(--blue-l);color:var(--blue)}
 .stat-icon.amber{background:var(--amber-l);color:var(--amber-d)}
@@ -181,8 +167,12 @@ ul{list-style:none}
 .pattern-card .pc-meta i{margin-right:3px}
 .pattern-card .pc-badges{display:flex;gap:6px;flex-wrap:wrap}
 .pattern-detail{max-height:0;overflow:hidden;transition:max-height .4s ease}
-.pattern-detail.open{max-height:500px}
+.pattern-card.open .pattern-detail{max-height:600px}
 .pattern-detail-inner{border-top:1px solid var(--border-l);padding-top:14px;margin-top:14px}
+.pc-toggle{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:14px;padding:9px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--body);font-size:12px;font-weight:600;transition:all .2s}
+.pc-toggle:hover{border-color:var(--blue);color:var(--blue)}
+.pc-toggle .fa-chevron-down{transition:transform .3s;font-size:10px}
+.pattern-card.open .pc-toggle .fa-chevron-down{transform:rotate(180deg)}
 
 /* ===== FLOW DIAGRAM ===== */
 .flow{display:flex;align-items:center;gap:0;flex-wrap:wrap}
@@ -301,8 +291,7 @@ ul{list-style:none}
 .footer-inner{max-width:1200px;margin:0 auto;padding:0 24px}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
 .footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.footer-brand-icon{width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
-.footer-brand-text{font-size:16px;font-weight:800;color:#fff}
+.footer-brand-text{font-size:17px;font-weight:800;color:#fff;letter-spacing:.5px}
 .footer-desc{font-size:13px;line-height:1.7;max-width:300px}
 .footer-col h4{font-size:12px;font-weight:700;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
 .footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.5);padding:4px 0;transition:color .2s}
@@ -375,20 +364,20 @@ ul{list-style:none}
 <header id="navbar">
   <div class="nav-inner">
     <a href="/" class="nav-brand" onclick="event.preventDefault();navigateTo('home')">
-      <div class="nav-brand-icon"><i class="fas fa-shield-halved"></i></div>
-      <span class="nav-brand-text">Scam Radar</span>
+      <span class="nav-brand-text">SPIP</span>
     </a>
     <nav class="nav-links" id="nav-links" aria-label="Navigasi utama">
       <a class="nav-link active" data-page="home" href="/">Beranda</a>
       <a class="nav-link" data-page="explorer" href="/explorer">Pola Penipuan</a>
-      <a class="nav-link" data-page="warning" href="/warning">Peringatan Dini</a>
+      <a class="nav-link" data-page="warning" href="/warning">Peringatan</a>
       <a class="nav-link" data-page="search" href="/search">Pencarian</a>
       <a class="nav-link" data-page="heatmap" href="/heatmap">Heatmap</a>
       <a class="nav-link" data-page="flow" href="/flow">Attack Flow</a>
+      <a class="nav-link" data-page="about" href="/about">Tentang</a>
+      <a class="nav-link" data-page="admin" href="/admin" id="nav-admin" style="display:none"><i class="fas fa-user-shield"></i> Admin</a>
     </nav>
     <div class="nav-right">
-      <a class="nav-link" data-page="about" href="/about">Tentang</a>
-      <button class="btn btn-primary btn-sm" onclick="navigateTo('report')"><i class="fas fa-pen-to-square"></i> Lapor Scam</button>
+      <button class="btn btn-primary btn-sm" onclick="navigateTo('report')"><i class="fas fa-pen-to-square"></i> Lapor</button>
       <button class="hamburger" id="hamburger-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
     </div>
   </div>
@@ -399,8 +388,7 @@ ul{list-style:none}
   <div class="drawer-overlay" id="drawer-overlay"></div>
   <div class="drawer-panel">
     <div class="drawer-brand">
-      <div class="drawer-brand-icon"><i class="fas fa-shield-halved"></i></div>
-      <span class="drawer-brand-text">Scam Radar</span>
+      <span class="drawer-brand-text">SPIP</span>
     </div>
     <a class="drawer-link active" data-page="home" href="/"><i class="fas fa-house"></i> Beranda</a>
     <a class="drawer-link" data-page="explorer" href="/explorer"><i class="fas fa-diagram-project"></i> Pola Penipuan</a>
@@ -409,6 +397,7 @@ ul{list-style:none}
     <a class="drawer-link" data-page="heatmap" href="/heatmap"><i class="fas fa-map-location-dot"></i> Heatmap</a>
     <a class="drawer-link" data-page="flow" href="/flow"><i class="fas fa-route"></i> Attack Flow</a>
     <a class="drawer-link" data-page="about" href="/about"><i class="fas fa-circle-info"></i> Tentang</a>
+    <a class="drawer-link" data-page="admin" href="/admin" id="drawer-admin" style="display:none"><i class="fas fa-user-shield"></i> Moderasi (Admin)</a>
     <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
       <button class="btn btn-primary" style="width:100%" onclick="closeDrawer();navigateTo('report')"><i class="fas fa-pen-to-square"></i> Lapor Scam</button>
     </div>
@@ -424,8 +413,7 @@ ul{list-style:none}
     <div class="footer-grid">
       <div>
         <div class="footer-brand">
-          <div class="footer-brand-icon"><i class="fas fa-shield-halved"></i></div>
-          <span class="footer-brand-text">Scam Radar</span>
+          <span class="footer-brand-text">SPIP</span>
         </div>
         <p class="footer-desc">Platform intelijen pola penipuan digital berbasis crowdsourcing. Mengubah laporan masyarakat menjadi peringatan dini yang menyelamatkan.</p>
       </div>
@@ -450,7 +438,7 @@ ul{list-style:none}
       </div>
     </div>
     <div class="footer-bottom">
-      <span>2026 Scam Radar — Prototype Mahasiswa</span>
+      <span>2026 SPIP — Prototype Mahasiswa</span>
       <span>Muhammad Indar / 60900124010</span>
     </div>
   </div>
@@ -526,6 +514,14 @@ const D={
    STATE
    ============================================================ */
 let curPage='home',charts={},isLoggedIn=false,searchType='semua';
+let isAdmin=false;
+let pendingReports=[
+  {id:1,platform:'WhatsApp',kategori:'Job Scam',kronologi:'Pelaku mengirim pesan via WhatsApp mengatasnamakan HR perusahaan. Diminta install APK tes online. Setelah install, saldo mobile banking hilang Rp 5.000.000.',nomor:'0812-3456-7890',rekening:'BCA 1234567890',domain:'lowongan-kerja-resmi.com',lokasi:'Jakarta',status:'pending',time:'15 menit lalu'},
+  {id:2,platform:'Telegram',kategori:'Investasi Bodong',kronologi:'Diajak masuk grup trading signal. Deposit kecil dikembalikan profit. Setelah deposit Rp 10.000.000, admin menghilang dan akun dibekukan.',nomor:'0857-9876-5432',rekening:'BNI 0987654321',domain:'investasi-pro-trading.net',lokasi:'Surabaya',status:'pending',time:'40 menit lalu'},
+  {id:3,platform:'Marketplace',kategori:'QRIS Palsu',kronologi:'Penjual kirim QRIS, setelah scan dana masuk ke rekening berbeda. Penjual hapus akun setelah pembayaran.',nomor:'',rekening:'BCA 1234567890',domain:'',lokasi:'Bandung',status:'pending',time:'2 jam lalu'},
+  {id:4,platform:'WhatsApp',kategori:'Kurir Palsu',kronologi:'Kurir palsu minta bayar ongkir COD via transfer. Paket tidak pernah datang, nomor diblokir setelah transfer.',nomor:'0878-1234-5678',rekening:'',domain:'',lokasi:'Makassar',status:'accepted',time:'3 jam lalu'},
+  {id:5,platform:'Email',kategori:'Beasiswa Palsu',kronologi:'Email beasiswa dari lembaga palsu, diminta bayar biaya verifikasi Rp 150.000 via transfer. Tidak ada beasiswa yang diberikan.',nomor:'',rekening:'Mandiri 1122334455',domain:'beasiswa-resmi-2026.com',lokasi:'Yogyakarta',status:'rejected',time:'5 jam lalu'},
+];
 
 /* ============================================================
    ROUTER
@@ -544,7 +540,7 @@ function navigateTo(page,push=true){
 function renderPage(p){
   const el=document.getElementById('content');
   el.style.animation='none';el.offsetHeight;el.style.animation='';
-  const m={home:pgHome,explorer:pgExplorer,warning:pgWarning,search:pgSearch,heatmap:pgHeatmap,flow:pgFlow,report:pgReport,about:pgAbout};
+  const m={home:pgHome,explorer:pgExplorer,warning:pgWarning,search:pgSearch,heatmap:pgHeatmap,flow:pgFlow,report:pgReport,about:pgAbout,admin:pgAdmin};
   el.innerHTML=(m[p]||pgHome)();
   if(p==='home')initHomeCharts();
   if(p==='home')animCounters();
@@ -552,6 +548,7 @@ function renderPage(p){
   if(p==='warning')initWarningFilter();
   if(p==='search')initSearch();
   if(p==='report')initReport();
+  if(p==='admin')initAdmin();
 }
 
 window.addEventListener('popstate',e=>{navigateTo(e.state?.page||'home',false)});
@@ -693,7 +690,7 @@ function pgHome(){
   </section>
 
   <!-- CTA -->
-  <section class="section" style="background:linear-gradient(165deg,#0F172A,#1E293B);color:#fff;text-align:center">
+  <section class="section" style="background:#0F172A;color:#fff;text-align:center">
     <div class="container" style="max-width:600px">
       <h2 class="anim" style="font-size:26px;font-weight:800;margin-bottom:10px">Pernah Menemui Penipuan?</h2>
       <p class="anim d1" style="font-size:15px;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.7">Laporan kamu bisa menjadi peringatan dini yang menyelamatkan orang lain. Satu laporan bisa mengungkap pola baru.</p>
@@ -716,7 +713,7 @@ function pgExplorer(){
     </div></div>
     <div class="pattern-grid" id="ex-list">
       ${D.patterns.map((p,i)=>`
-      <div class="pattern-card anim" data-s="${p.status}" data-r="${p.risk}" style="animation-delay:${.04*i}s" onclick="this.querySelector('.pattern-detail').classList.toggle('open')">
+      <div class="pattern-card anim" data-s="${p.status}" data-r="${p.risk}" style="animation-delay:${.04*i}s">
         <div class="pc-top"><span class="pc-name">${p.name}</span><span class="badge ${p.status}">${p.status}</span></div>
         <div class="pc-desc">${p.desc.substring(0,130)}...</div>
         <div class="pc-meta">
@@ -725,6 +722,7 @@ function pgExplorer(){
           <span><i class="fas fa-clock"></i> ${p.lastReport}</span>
         </div>
         <div class="pc-badges">${p.platforms.map(pl=>`<span class="badge platform">${pl}</span>`).join('')}<span class="badge ${p.risk}">Risiko ${p.risk}</span></div>
+        <button class="pc-toggle" onclick="togglePattern(this)"><span>Detail</span><i class="fas fa-chevron-down"></i></button>
         <div class="pattern-detail"><div class="pattern-detail-inner">
           <p style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:8px">Attack Flow</p>
           <div class="flow" style="margin-bottom:14px">${p.flow.map((s,si)=>{let c=si===0?'start':si===p.flow.length-1?'danger':'';return `<div class="flow-node ${c}" style="font-size:11px;padding:7px 12px">${s}</div>${si<p.flow.length-1?'<div class="flow-arrow"></div>':''}`}).join('')}</div>
@@ -744,6 +742,10 @@ function initExplorerFilter(){
       c.style.display=(v==='semua'||v===s||(v==='tinggi'&&r==='tinggi'))?'':'none';
     });
   }));
+}
+function togglePattern(btn){
+  const card=btn.closest('.pattern-card');
+  if(card)card.classList.toggle('open');
 }
 
 /* ============================================================
@@ -883,7 +885,7 @@ function pgReport(){
   return `<section class="section"><div class="container">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px">
       <div><h2 style="font-size:24px;font-weight:800;color:var(--navy);margin-bottom:4px">Lapor Penipuan</h2><p style="font-size:14px;color:var(--muted)">Bantu komunitas dengan melaporkan modus penipuan yang kamu temui.</p></div>
-      <button class="btn btn-outline btn-sm" onclick="isLoggedIn=false;navigateTo('report')"><i class="fas fa-right-from-bracket"></i> Keluar</button>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Keluar</button>
     </div>
     <div class="card"><div class="card-body">
       <div class="report-form-wrap">
@@ -910,13 +912,33 @@ function pgReport(){
   </div></section>`;
 }
 
+const ADMIN={email:'admin@spip.id',password:'admin123'};
 function doLogin(){
   const em=document.getElementById('login-email'),ps=document.getElementById('login-pass');
   let ok=true;
   if(!em.value.trim()){em.closest('.form-group').classList.add('error');ok=false}else{em.closest('.form-group').classList.remove('error')}
   if(!ps.value.trim()){ps.closest('.form-group').classList.add('error');ok=false}else{ps.closest('.form-group').classList.remove('error')}
-  if(ok){isLoggedIn=true;showToast('Berhasil masuk. Sekarang kamu bisa melapor.','success');navigateTo('report')}
-  else showToast('Mohon lengkapi email dan password.','error');
+  if(!ok){showToast('Mohon lengkapi email dan password.','error');return}
+  const v=em.value.trim().toLowerCase(),p=ps.value;
+  if(v===ADMIN.email&&p===ADMIN.password){
+    isAdmin=true;isLoggedIn=true;updateAdminNav();
+    showToast('Selamat datang, Admin.','success');
+    navigateTo('admin');
+  } else {
+    isAdmin=false;isLoggedIn=true;updateAdminNav();
+    showToast('Berhasil masuk. Sekarang kamu bisa melapor.','success');
+    navigateTo('report');
+  }
+}
+function updateAdminNav(){
+  const s=isAdmin?'':'none';
+  const a=document.getElementById('nav-admin'),d=document.getElementById('drawer-admin');
+  if(a)a.style.display=s;if(d)d.style.display=s;
+}
+function doLogout(){
+  isLoggedIn=false;isAdmin=false;updateAdminNav();
+  showToast('Kamu telah keluar.','success');
+  navigateTo('home');
 }
 
 function initReport(){
@@ -947,7 +969,7 @@ function initReport(){
    ============================================================ */
 function pgAbout(){
   return `<section class="section"><div class="container">
-    <div class="section-header"><h2>Tentang Scam Radar</h2><p>Platform intelijen pola penipuan digital berbasis crowdsourcing untuk mendukung peringatan dini ancaman siber pada masyarakat.</p></div>
+    <div class="section-header"><h2>Tentang SPIP</h2><p>Platform intelijen pola penipuan digital berbasis crowdsourcing untuk mendukung peringatan dini ancaman siber pada masyarakat.</p></div>
     <div class="card" style="margin-bottom:32px"><div class="card-body" style="font-size:14px;line-height:1.8;color:var(--body)">
       <p style="margin-bottom:12px">Masyarakat saat ini menghadapi peningkatan penipuan digital melalui WhatsApp, Telegram, Instagram, Facebook, SMS, Email, dan Marketplace.</p>
       <p style="margin-bottom:12px">Masalahnya bukan kurangnya edukasi. Sebagian besar masyarakat sudah mengetahui istilah phishing, scam, dan social engineering. Tapi korban tetap bertambah karena <strong>modus penipuan berkembang sangat cepat</strong>.</p>
@@ -966,7 +988,7 @@ function pgAbout(){
       <table class="compare-table"><thead><tr><th>Platform</th><th>Pertanyaan yang Dijawab</th><th>Fokus</th></tr></thead><tbody>
         <tr><td>CekRekening</td><td>Apakah rekening ini pernah dilaporkan?</td><td>Identitas pelaku</td></tr>
         <tr><td>GetContact</td><td>Nomor ini disimpan sebagai apa?</td><td>Identitas pelaku</td></tr>
-        <tr><td class="hl">Scam Radar</td><td class="hl">Modus apa yang sedang meningkat dan bagaimana pola serangannya?</td><td class="hl">Pola serangan (TTP)</td></tr>
+        <tr><td class="hl">SPIP</td><td class="hl">Modus apa yang sedang meningkat dan bagaimana pola serangannya?</td><td class="hl">Pola serangan (TTP)</td></tr>
       </tbody></table>
     </div></div>
 
@@ -988,7 +1010,118 @@ function pgAbout(){
 }
 
 /* ============================================================
-   TOAST
+   PAGE: ADMIN (Moderasi Laporan)
+   ============================================================ */
+function pgAdmin(){
+  if(!isAdmin||!isLoggedIn) return `<section class="section"><div class="container"><div class="login-gate">
+    <div class="login-gate-icon"><i class="fas fa-user-shield"></i></div>
+    <h2>Masuk sebagai Admin</h2>
+    <p>Hanya admin yang dapat memoderasi laporan. Gunakan akun admin untuk masuk.</p>
+    <div class="login-form card" style="max-width:380px;margin:0 auto">
+      <div class="card-body">
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="login-email" type="email" placeholder="admin@spip.id"><div class="form-error">Email wajib diisi</div></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="login-pass" type="password" placeholder="Masukkan password"><div class="form-error">Password wajib diisi</div></div>
+        <button class="btn btn-primary" style="width:100%;padding:12px;margin-top:4px" onclick="doLogin()"><i class="fas fa-right-to-bracket"></i> Masuk</button>
+        <p style="text-align:center;margin-top:14px;font-size:11px;color:var(--caption)">Akun demo admin: admin@spip.id / admin123</p>
+      </div>
+    </div>
+  </div></div></section>`;
+
+  const counts={pending:0,accepted:0,rejected:0};
+  pendingReports.forEach(r=>{counts[r.status]=(counts[r.status]||0)+1});
+  const lang={pending:'Menunggu',accepted:'Diterima',rejected:'Ditolak'};
+  const sev={pending:'amber',accepted:'green',rejected:'red'};
+  return `<section class="section"><div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+      <div><h2 style="font-size:24px;font-weight:800;color:var(--navy);margin-bottom:4px">Moderasi Laporan</h2><p style="font-size:14px;color:var(--muted)">Tinjau laporan dari pengguna. Terima untuk masuk filter, atau tolak yang tidak valid.</p></div>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Keluar</button>
+    </div>
+
+    <div class="stat-grid anim" style="grid-template-columns:repeat(3,1fr);margin-bottom:28px">
+      <div class="stat-card amber"><div class="stat-icon amber"><i class="fas fa-hourglass-half"></i></div><div class="stat-value">${counts.pending||0}</div><div class="stat-label">Menunggu</div></div>
+      <div class="stat-card green"><div class="stat-icon green"><i class="fas fa-circle-check"></i></div><div class="stat-value">${counts.accepted||0}</div><div class="stat-label">Diterima</div></div>
+      <div class="stat-card red"><div class="stat-icon red"><i class="fas fa-circle-xmark"></i></div><div class="stat-value">${counts.rejected||0}</div><div class="stat-label">Ditolak</div></div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:20px">
+      <div class="search-box" style="position:relative;max-width:340px;margin:0;flex:1;min-width:220px">
+        <i class="fas fa-magnifying-glass"></i>
+        <input type="text" id="adm-search" placeholder="Cari platform, kategori, nomor, rekening, domain..." style="width:100%;padding:11px 14px 11px 40px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);transition:border-color .2s,box-shadow .2s" oninput="admRenderList()">
+      </div>
+      <div class="filter-tabs" id="adm-filter">
+        <button class="filter-tab active" data-f="semua">Semua</button>
+        <button class="filter-tab" data-f="pending">Menunggu</button>
+        <button class="filter-tab" data-f="accepted">Diterima</button>
+        <button class="filter-tab" data-f="rejected">Ditolak</button>
+      </div>
+    </div>
+
+    <div id="adm-list" style="display:flex;flex-direction:column;gap:14px"></div>
+  </div></section>`;
+}
+}
+
+function admRenderList(){
+  const list=document.getElementById('adm-list');if(!list)return;
+  const q=(document.getElementById('adm-search')?.value||'').trim().toLowerCase();
+  const ft=document.querySelector('#adm-filter .filter-tab.active')?.dataset.f||'semua';
+  const lang={pending:'Menunggu',accepted:'Diterima',rejected:'Ditolak'};
+  const sev={pending:'amber',accepted:'green',rejected:'red'};
+  const filtered=pendingReports.filter(r=>{
+    if(ft!=='semua'&&r.status!==ft)return false;
+    if(!q)return true;
+    return [r.platform,r.kategori,r.kronologi,r.nomor,r.rekening,r.domain,r.lokasi].join(' ').toLowerCase().includes(q);
+  });
+  if(!filtered.length){list.innerHTML=`<div class="empty"><i class="fas fa-inbox"></i><p>Tidak ada laporan yang cocok.</p></div>`;return}
+  list.innerHTML=filtered.map(r=>{
+    const meta=[];
+    if(r.nomor)meta.push(`<span><i class="fas fa-phone"></i> ${r.nomor}</span>`);
+    if(r.rekening)meta.push(`<span><i class="fas fa-building-columns"></i> ${r.rekening}</span>`);
+    if(r.domain)meta.push(`<span><i class="fas fa-globe"></i> ${r.domain}</span>`);
+    if(r.lokasi)meta.push(`<span><i class="fas fa-map-pin"></i> ${r.lokasi}</span>`);
+    const actions=r.status==='pending'
+      ?`<div style="display:flex;gap:8px;margin-top:14px">
+          <button class="btn btn-sm" style="background:var(--green);color:#fff" onclick="admAction(${r.id},'accepted')"><i class="fas fa-check"></i> Terima</button>
+          <button class="btn btn-sm btn-outline" onclick="admAction(${r.id},'rejected')"><i class="fas fa-xmark"></i> Tolak</button>
+        </div>`
+      :`<span class="badge ${sev[r.status]}" style="margin-top:14px;align-self:flex-start"><i class="fas ${r.status==='accepted'?'fa-circle-check':'fa-circle-xmark'}"></i> ${lang[r.status]}</span>`;
+    return `<div class="card anim">
+      <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="badge platform">${r.platform}</span>
+            <span class="badge kritis">${r.kategori}</span>
+          </div>
+          <span style="font-size:11px;color:var(--muted)"><i class="fas fa-clock"></i> ${r.time}</span>
+        </div>
+        <p style="font-size:13px;color:var(--body);line-height:1.7">${r.kronologi}</p>
+        ${meta.length?`<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted)">${meta.join('')}</div>`:''}
+        ${actions}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function admAction(id,status){
+  const r=pendingReports.find(x=>x.id===id);
+  if(!r)return;
+  r.status=status;
+  showToast(`Laporan ${status==='accepted'?'diterima':'ditolak'}.`,status==='accepted'?'success':'warning');
+  admRenderList();
+  const cnt={pending:0,accepted:0,rejected:0};
+  pendingReports.forEach(x=>{cnt[x.status]=(cnt[x.status]||0)+1});
+  const vals=document.querySelectorAll('.stat-grid .stat-value');
+  if(vals.length>=3){vals[0].textContent=cnt.pending||0;vals[1].textContent=cnt.accepted||0;vals[2].textContent=cnt.rejected||0}
+}
+
+function initAdmin(){
+  ['login-email','login-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>el.closest('.form-group').classList.remove('error'))});
+  const f=document.getElementById('adm-filter');
+  if(f)f.querySelectorAll('.filter-tab').forEach(t=>t.addEventListener('click',()=>{
+    f.querySelectorAll('.filter-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');admRenderList();
+  }));
+  admRenderList();
+}
    ============================================================ */
 function showToast(msg,type='success'){
   const c=document.getElementById('toast-box'),t=document.createElement('div');
@@ -1017,11 +1150,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   const pParam=params.get('p');
   if(pParam!==null){
     const seg=pParam.replace(/~and~/g,'&');
-    const valid=['home','explorer','warning','search','heatmap','flow','report','about'];
+    const valid=['home','explorer','warning','search','heatmap','flow','report','about','admin'];
     initialPage=valid.includes(seg)?seg:'home';
   } else if(!handleHash()){
     const path=window.location.pathname.replace(/^\/+|\/+$/g,'');
-    const valid=['home','explorer','warning','search','heatmap','flow','report','about'];
+    const valid=['home','explorer','warning','search','heatmap','flow','report','about','admin'];
     initialPage=valid.includes(path)?path:'home';
   }
   window.history.replaceState({page:initialPage},'','/SPIP/'+(initialPage==='home'?'':initialPage));
