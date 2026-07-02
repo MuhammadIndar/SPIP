@@ -1012,13 +1012,20 @@ function closeDrawer(){document.getElementById('mobile-drawer').classList.remove
    INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded',()=>{
-  if(!handleHash()){
+  let initialPage='home';
+  const params=new URLSearchParams(window.location.search);
+  const pParam=params.get('p');
+  if(pParam!==null){
+    const seg=pParam.replace(/~and~/g,'&');
+    const valid=['home','explorer','warning','search','heatmap','flow','report','about'];
+    initialPage=valid.includes(seg)?seg:'home';
+  } else if(!handleHash()){
     const path=window.location.pathname.replace(/^\/+|\/+$/g,'');
     const valid=['home','explorer','warning','search','heatmap','flow','report','about'];
-    const page=valid.includes(path)?path:'home';
-    window.history.replaceState({page},'','/SPIP/'+(page==='home'?'':page));
-    navigateTo(page,false);
+    initialPage=valid.includes(path)?path:'home';
   }
+  window.history.replaceState({page:initialPage},'','/SPIP/'+(initialPage==='home'?'':initialPage));
+  navigateTo(initialPage,false);
   // Nav clicks
   document.querySelectorAll('.nav-link,.drawer-link').forEach(l=>l.addEventListener('click',e=>{e.preventDefault();navigateTo(l.dataset.page)}));
   document.getElementById('hamburger-btn').addEventListener('click',openDrawer);
