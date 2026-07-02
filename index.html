@@ -973,30 +973,6 @@ function authGateHTML(dest){
     </div>
   </div></div></section>`;
 }
-  const nameField=isReg?`<div class="form-group"><label class="form-label">Nama Lengkap</label><input class="form-input" id="login-name" type="text" placeholder="Nama kamu"><div class="form-error">Nama wajib diisi</div></div>`:'';
-  const confirmField=isReg?`<div class="form-group"><label class="form-label">Konfirmasi Password</label><input class="form-input" id="login-pass2" type="password" placeholder="Ulangi password"><div class="form-error">Konfirmasi password tidak cocok</div></div>`:'';
-  const btnLabel=isReg?'Daftar':'Masuk';
-  const btnIcon=isReg?'fa-user-plus':'fa-right-to-bracket';
-  const switchText=isReg?'Sudah punya akun?':'Belum punya akun?';
-  const switchLink=isReg?'Masuk di sini':'Daftar sekarang';
-  const demoHint=isAdminGate&&!isReg?`<p style="text-align:center;margin-top:14px;font-size:11px;color:var(--caption)">Akun demo admin: admin@spip.id / admin123</p>`:'';
-  return `<section class="section"><div class="container"><div class="login-gate">
-    <div class="login-gate-icon"><i class="fas ${icon}"></i></div>
-    <h2>${title}</h2>
-    <p>${desc}</p>
-    <div class="login-form card" style="max-width:380px;margin:0 auto">
-      <div class="card-body">
-        ${nameField}
-        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="login-email" type="email" placeholder="${isAdminGate?'admin@spip.id':'nama@email.com'}"><div class="form-error">Email wajib diisi</div></div>
-        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="login-pass" type="password" placeholder="Masukkan password"><div class="form-error">Password wajib diisi</div></div>
-        ${confirmField}
-        <button class="btn btn-primary" style="width:100%;padding:12px;margin-top:4px" onclick="${isReg?'doRegister()':'doLogin()'}"><i class="fas ${btnIcon}"></i> ${btnLabel}</button>
-        <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">${switchText} <a href="#" onclick="event.preventDefault();setAuthMode('${isReg?'login':'register'}')" style="font-weight:600">${switchLink}</a></p>
-        ${demoHint}
-      </div>
-    </div>
-  </div></div></section>`;
-}
 function authGateInit(){
   ['login-name','login-email','login-pass','login-pass2'].forEach(id=>{const e=document.getElementById(id);if(e)e.addEventListener('input',()=>e.closest('.form-group')?.classList.remove('error'))});
 }
